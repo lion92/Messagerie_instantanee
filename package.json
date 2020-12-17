@@ -1,0 +1,7 @@
+{
+  "name": "groupe_user",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Nicolas KOHLER",
+  "license": "MIT"
+}
