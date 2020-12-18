@@ -2,7 +2,7 @@ import { IUser } from '../interface/IUser';
 import MySQL from '../db/MySQL';
 export default class User implements IUser{
 
-    private idUser?: number | null;
+    private id_user?: number | null;
     private nom: string;
     private prenom: string;
     private email: string;
@@ -12,8 +12,8 @@ export default class User implements IUser{
     private username: string;
     protected table: string = 'user';
 
-    constructor(idUser:number | null, nom: string, prenom: string, email: string, password: string, login: string,username: string){
-        if(idUser !== null) this.idUser = idUser;
+    constructor(id_user:number | null, nom: string, prenom: string, email: string, password: string, login: string,username: string){
+        if(id_user !== null) this.id_user = id_user;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
@@ -23,12 +23,12 @@ export default class User implements IUser{
         this.username = username;
     }
     get attributInsert(): Array < string > {
-        return [`idUser`,`nom`, `prenom`, `email`, `password`, `login`, `username`,`status`];
+        return [`id_user`,`nom`, `prenom`, `email`, `password`, `login`, `username`,`status`];
     }
     save(): Promise < number > {
         return new Promise((resolve, reject) => {
             MySQL.insert(this.table, this).then((id: number) => {
-                this.idUser = id;
+                this.id_user = id;
                 console.log(`Save ${this.table}`);
                 resolve(id);
             }).catch((err) => {
@@ -43,8 +43,8 @@ export default class User implements IUser{
                     let newUser : User;
                     let data: Array < User > = [];
                     for (const user of arrayUser) {
-                        if(user.idUser === undefined ) user.idUser = null;
-                        newUser = new User(user.idUser, user.nom, user.prenom, user.email, user.password, user.login, user.username);
+                        if(user.id_user === undefined ) user.id_user = null;
+                        newUser = new User(user.id_user, user.nom, user.prenom, user.email, user.password, user.login, user.username);
                         
                         data.push(newUser);
                     }

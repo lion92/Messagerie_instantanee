@@ -8,16 +8,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const listAttributSelect = {
     "user": {
-        primaryKey: `idUser`,
-        attribut: [`idUser`, `nom`, `prenom`, `email`, `password`, `status`, `login`, `username`]
+        primaryKey: `id_user`,
+        attribut: [`id_user`, `nom`, `prenom`, `email`, `password`, `status`, `login`, `username`]
     },
     "groupe": {
-        primaryKey: `personne_idpersonne`,
-        attribut: [`email`, `password`, `personne_idpersonne`]
+        primaryKey: `id_groupe`,
+        attribut: [`nom_groupe`, `id_administrateur`, `date_creation`, `id_user`]
     },
     "asset": {
-        primaryKey: `idpersonne`,
-        attribut: [`idpersonne`, `nom`, `prenom`, `dateNaiss`, `adresse`, `ville`, `zipcode`, `pays_idPays`]
+        primaryKey: `id_asset`,
+        attribut: [`nom_document`, `date_creation`, `descriptif`, `url`, `groupe_idgroupe`]
+    },
+    "conversation": {
+        primaryKey: `id_conversation`,
+        attribut: [`user_id_emetteur`, `user_id_recepteur`]
+    },
+    "membre": {
+        primaryKey: `user_iduser`,
+        attribut: [`groupe_idgroupe`]
+    },
+    "message": {
+        primaryKey: `id_message`,
+        attribut: [`conversation_idconversation`, `user_iduser`, `contenu_message`, `date_heure`]
     },
 };
 // export default { listAttributSelect, listeTables };

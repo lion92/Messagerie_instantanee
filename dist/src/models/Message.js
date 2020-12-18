@@ -7,5 +7,8 @@ class Message {
         this.contenu_message = contenu;
         this.date_envoi = date;
     }
+    get attributInsert() {
+        return [`id_message`, `conversation_idconversation`, `user_iduser`, `contenu_message`, `date_heure`];
+    }
 }
 exports.default = Message;

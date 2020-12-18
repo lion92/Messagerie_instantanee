@@ -9,6 +9,6 @@ export default class Conversation implements IConversation{
         this.utilisateur2 = utilisateur2;
     }
     get attributInsert(): Array < string > {
-        return [`idconversation`,`user_id_emetteur`, `user_id_recepteur`];
+        return [`id_conversation`,`user_id_emetteur`, `user_id_recepteur`];
     };
 }

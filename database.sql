@@ -29,9 +29,7 @@ CREATE TABLE IF NOT EXISTS `messagerie_instantanee`.`user` (
   `status` SMALLINT(10) NULL,
   `login` VARCHAR(20) NULL,
   `username` VARCHAR(20) NULL,
-  PRIMARY KEY (`id_user`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) ,
-  UNIQUE INDEX `login_UNIQUE` (`login` ASC) )
+  PRIMARY KEY (`id_user`)
 ENGINE = InnoDB;
 
 

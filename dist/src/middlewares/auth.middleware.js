@@ -23,7 +23,7 @@ exports.authMidd = authMidd;
 const registerMidd = (req, res, next) => {
     console.log('middleware run');
     let data = req.body;
-    const champsRequire = [`nom`, `prenom`, `dateNaiss`, `pays`, `email`, `adresse`, `ville`, `zipcode`, `password`];
+    const champsRequire = [`nom`, `prenom`, `email`, `password`, `login`, `username`];
     try {
         let error = true;
         let textError = '';
@@ -55,7 +55,7 @@ const registerMidd = (req, res, next) => {
 exports.registerMidd = registerMidd;
 const loginMidd = (req, res, next) => {
     let data = req.body;
-    const champsRequire = [`email`, `password`];
+    const champsRequire = [`login`, `password`];
     try {
         let error = true;
         let textError = '';

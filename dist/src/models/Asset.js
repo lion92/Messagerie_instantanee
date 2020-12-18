@@ -5,28 +5,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const MySQL_1 = __importDefault(require("../db/MySQL"));
 class Asset {
-    constructor(idAsset, nom_document = '', descriptif = '', url = '') {
+    constructor(id_asset, groupe_idgroupe = 1, nom_document = '', descriptif = '', url = '') {
         this.nom_document = nom_document;
-        this.date_creation = Date().toLocaleString();
+        this.date_creation = new Date().toISOString().replace('Z', '').replace('T', ' ');
         this.descriptif = descriptif;
         this.url = url;
-        if (idAsset != null) {
-            this.idAsset = idAsset;
-        }
+        this.groupe_idgroupe = groupe_idgroupe;
+        if (id_asset != null)
+            this.id_asset = id_asset;
     }
     save() {
+        console.log("0");
         return new Promise((resolve, reject) => {
             MySQL_1.default.insert('asset', this).then((id) => {
-                this.idAsset = id;
+                this.id_asset = id;
                 resolve(id);
             });
         });
     }
-    get attribut() {
-        return ['nom_document', 'date_creation'];
+    get attributInsert() {
+        return ['nom_document', 'date_creation', 'groupe_idgroupe'];
     }
     get id() {
-        return this.idAsset;
+        return this.id_asset;
+    }
+    toTimestamp(strDate) {
+        var datum = Date.parse(strDate);
+        return datum / 1000;
     }
 }
 exports.default = Asset;

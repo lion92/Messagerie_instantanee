@@ -45,8 +45,8 @@ export default abstract class MySQL {
             })
             bdd.connect(err => {
                 if (err) console.log('Connection database error');
-            })
-
+            });
+            
             let data = []; // Stock value
             let columns = "";
             let parameters = "";
