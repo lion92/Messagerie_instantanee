@@ -12,4 +12,7 @@ export default class Message implements IMessage{
         this.contenu_message = contenu;
         this.date_envoi = date;
     }
+    get attributInsert(): Array < string > {
+        return [`idmessage`,`conversation_idconversation`, `user_iduser`, `contenu_message`, `date_heure`];
+    }
 }

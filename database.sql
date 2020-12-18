@@ -26,12 +26,12 @@ CREATE TABLE IF NOT EXISTS `messagerie_instantanee`.`user` (
   `prenom` VARCHAR(20) NULL,
   `email` VARCHAR(50) NOT NULL,
   `password` VARCHAR(80) NOT NULL,
-  `statut` SMALLINT(10) NULL,
+  `status` SMALLINT(10) NULL,
   `login` VARCHAR(20) NULL,
   `username` VARCHAR(20) NULL,
   PRIMARY KEY (`iduser`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
-  UNIQUE INDEX `login_UNIQUE` (`login` ASC) VISIBLE)
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) ,
+  UNIQUE INDEX `login_UNIQUE` (`login` ASC) )
 ENGINE = InnoDB;
 
 
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `messagerie_instantanee`.`groupe` (
   `date_creation` TIMESTAMP NOT NULL,
   `user_iduser` INT NOT NULL,
   PRIMARY KEY (`idgroupe`),
-  INDEX `fk_groupe_user1_idx` (`user_iduser` ASC) VISIBLE,
+  INDEX `fk_groupe_user1_idx` (`user_iduser` ASC) ,
   CONSTRAINT `fk_groupe_user1`
     FOREIGN KEY (`user_iduser`)
     REFERENCES `messagerie_instantanee`.`user` (`iduser`)
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `messagerie_instantanee`.`asset` (
   `url` VARCHAR(200) NULL,
   `groupe_idgroupe` INT NOT NULL,
   PRIMARY KEY (`idasset`),
-  INDEX `fk_asset_groupe1_idx` (`groupe_idgroupe` ASC) VISIBLE,
+  INDEX `fk_asset_groupe1_idx` (`groupe_idgroupe` ASC) ,
   CONSTRAINT `fk_asset_groupe1`
     FOREIGN KEY (`groupe_idgroupe`)
     REFERENCES `messagerie_instantanee`.`groupe` (`idgroupe`)
@@ -80,7 +80,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `messagerie_instantanee`.`image` (
   `asset_idasset` INT NOT NULL,
   PRIMARY KEY (`asset_idasset`),
-  INDEX `fk_image_asset1_idx` (`asset_idasset` ASC) VISIBLE,
+  INDEX `fk_image_asset1_idx` (`asset_idasset` ASC) ,
   CONSTRAINT `fk_image_asset1`
     FOREIGN KEY (`asset_idasset`)
     REFERENCES `messagerie_instantanee`.`asset` (`idasset`)
@@ -95,7 +95,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `messagerie_instantanee`.`video` (
   `asset_idasset` INT NOT NULL,
   PRIMARY KEY (`asset_idasset`),
-  INDEX `fk_video_asset1_idx` (`asset_idasset` ASC) VISIBLE,
+  INDEX `fk_video_asset1_idx` (`asset_idasset` ASC) ,
   CONSTRAINT `fk_video_asset1`
     FOREIGN KEY (`asset_idasset`)
     REFERENCES `messagerie_instantanee`.`asset` (`idasset`)
@@ -112,8 +112,8 @@ CREATE TABLE IF NOT EXISTS `messagerie_instantanee`.`conversation` (
   `user_id_emetteur` INT NOT NULL,
   `user_id_recepteur` INT NOT NULL,
   PRIMARY KEY (`idconversation`),
-  INDEX `fk_conversation_user1_idx` (`user_id_emetteur` ASC) VISIBLE,
-  INDEX `fk_conversation_user2_idx` (`user_id_recepteur` ASC) VISIBLE,
+  INDEX `fk_conversation_user1_idx` (`user_id_emetteur` ASC) ,
+  INDEX `fk_conversation_user2_idx` (`user_id_recepteur` ASC) ,
   CONSTRAINT `fk_conversation_user1`
     FOREIGN KEY (`user_id_emetteur`)
     REFERENCES `messagerie_instantanee`.`user` (`iduser`)
@@ -137,8 +137,8 @@ CREATE TABLE IF NOT EXISTS `messagerie_instantanee`.`message` (
   `contenu_message` VARCHAR(45) NULL,
   `date_heure` TIMESTAMP NULL,
   PRIMARY KEY (`idmessage`),
-  INDEX `fk_message_conversation1_idx` (`conversation_idconversation` ASC) VISIBLE,
-  INDEX `fk_message_user1_idx` (`user_iduser` ASC) VISIBLE,
+  INDEX `fk_message_conversation1_idx` (`conversation_idconversation` ASC) ,
+  INDEX `fk_message_user1_idx` (`user_iduser` ASC) ,
   CONSTRAINT `fk_message_conversation1`
     FOREIGN KEY (`conversation_idconversation`)
     REFERENCES `messagerie_instantanee`.`conversation` (`idconversation`)
@@ -159,8 +159,8 @@ CREATE TABLE IF NOT EXISTS `messagerie_instantanee`.`membre` (
   `user_iduser` INT NOT NULL,
   `groupe_idgroupe` INT NOT NULL,
   PRIMARY KEY (`user_iduser`, `groupe_idgroupe`),
-  INDEX `fk_user_has_groupe_groupe1_idx` (`groupe_idgroupe` ASC) VISIBLE,
-  INDEX `fk_user_has_groupe_user1_idx` (`user_iduser` ASC) VISIBLE,
+  INDEX `fk_user_has_groupe_groupe1_idx` (`groupe_idgroupe` ASC) ,
+  INDEX `fk_user_has_groupe_user1_idx` (`user_iduser` ASC) ,
   CONSTRAINT `fk_user_has_groupe_user1`
     FOREIGN KEY (`user_iduser`)
     REFERENCES `messagerie_instantanee`.`user` (`iduser`)
