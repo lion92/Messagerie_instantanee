@@ -14,21 +14,21 @@ config(); //process.env
 
 
 try {
-  
-  //nico---------------------------------------
+
+    //nico---------------------------------------
     const user1 = new User(null, "kohler", "gilles", "nicolas.kohler@imie-paris.fr", "password", "nkohler", "username");
     user1.save();
     //User.select(user1);
-    User.select({nom: "kohler"});
-  //Kriss-----------------------------------------------
-  const asset=new Asset(null,1,"ddd")
-asset.save().then((id: number) => {
-    
-const image=new Image(id);
-image.save();
-})
-//asset.save();
-  
+    User.select({ nom: "kohler" });
+    //Kriss-----------------------------------------------
+    const asset = new Asset(null, 1, "ddd")
+    asset.save().then((id: number) => {
+
+        const image = new Image(id);
+        image.save();
+    })
+    //asset.save();
+
 } catch (error) {
     console.log(error);
 }
