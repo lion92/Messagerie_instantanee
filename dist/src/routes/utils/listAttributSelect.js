@@ -13,11 +13,11 @@ const listAttributSelect = {
     },
     "video": {
         primaryKey: `asset_idasset`,
-        attribut: []
+        attribut: [`asset_idasset`]
     },
     "image": {
         primaryKey: `asset_idasset`,
-        attribut: []
+        attribut: [`asset_idasset`]
     }
 };
 // export default { listAttributSelect, listeTables };

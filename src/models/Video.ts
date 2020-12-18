@@ -5,14 +5,14 @@ export default class Video extends Asset {
 
     private id_Asset:number;
 
-    constructor(idVideo:number){
-        super(idVideo,1);
-        this.id_Asset=idVideo;
+    constructor(id_video:number){
+        super(id_video,1);
+        this.id_Asset=id_video;
     }
     save(): Promise < number > {
         return new Promise((resolve, reject) => {
             MySQL.insert('video', this).then((id: number) => {
-                this.idAsset = id;
+                this.id_asset = id;
                 resolve(id)
             })
         })

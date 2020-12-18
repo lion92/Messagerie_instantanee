@@ -5,9 +5,9 @@ import MySQL from '../db/MySQL';
 export default class Image extends Asset {
  private asset_idasset:number|null|undefined;
    
- constructor(idImage:number){
-        super(idImage);
-       this.asset_idasset=this.idAsset;
+ constructor(id_image:number){
+        super(id_image);
+       this.asset_idasset=this.id_asset;
     }
     get attribut(): Array < string > {
         return ['asset_idasset'];

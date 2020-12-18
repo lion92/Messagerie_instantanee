@@ -13,19 +13,19 @@ interface attributSelectInterface {
  */
 const listAttributSelect: Record < listeTables, attributSelectInterface > = { //Constructs a type with a set of properties Keys of type Type. This utility can be used to map the properties of a type to another type.
     "user": {
-        primaryKey: `idUser`,
-        attribut: [`idUser`,`nom`, `prenom`, `email`, `password`, `status`, `login`, `username`]
+        primaryKey: `id_user`,
+        attribut: [`id_user`,`nom`, `prenom`, `email`, `password`, `status`, `login`, `username`]
     },
     "groupe": {
-        primaryKey: `idgroupe`,
-        attribut: [`nomdugroupe`, `administrateur`, `date_creation`, `user_iduser`]
+        primaryKey: `id_groupe`,
+        attribut: [`nom_groupe`, `id_administrateur`, `date_creation`, `id_user`]
     },
     "asset": {
-        primaryKey: `idasset`,
+        primaryKey: `id_asset`,
         attribut: [`nom_document`, `date_creation`, `descriptif`, `url`, `groupe_idgroupe`]
     },
     "conversation": {
-        primaryKey: `idconversation`,
+        primaryKey: `id_conversation`,
         attribut: [`user_id_emetteur`, `user_id_recepteur`]
     },
     "membre": {
@@ -33,7 +33,7 @@ const listAttributSelect: Record < listeTables, attributSelectInterface > = { //
         attribut: [`groupe_idgroupe`]
     },
     "message": {
-        primaryKey: `idmessage`,
+        primaryKey: `id_message`,
         attribut: [`conversation_idconversation`, `user_iduser`, `contenu_message`, `date_heure`]
     },
 };
