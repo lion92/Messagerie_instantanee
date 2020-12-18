@@ -9,10 +9,10 @@ export default class User implements IUser{
     private password: string;
     private status: number = 4;
     private login: string;
-    private username?: string | null;
+    private username: string;
     protected table: string = 'user';
 
-    constructor(idUser:number | null, nom: string, prenom: string, email: string, password: string, login: string,username?: string){
+    constructor(idUser:number | null, nom: string, prenom: string, email: string, password: string, login: string,username: string){
         if(idUser !== null) this.idUser = idUser;
         this.nom = nom;
         this.prenom = prenom;
@@ -20,8 +20,7 @@ export default class User implements IUser{
         this.password = password;
         this.status = 1;
         this.login = login;
-        if(username !== undefined) this.username = username;
-        else this.username = null;
+        this.username = username;
     }
     get attributInsert(): Array < string > {
         return [`idUser`,`nom`, `prenom`, `email`, `password`, `login`, `username`,`status`];
@@ -44,13 +43,12 @@ export default class User implements IUser{
                     let newUser : User;
                     let data: Array < User > = [];
                     for (const user of arrayUser) {
-                        console.log(user.idUser);
                         if(user.idUser === undefined ) user.idUser = null;
-                        newUser = new User(user.idUser, user.nom, user.prenom, user.email, user.password, user.login);
+                        newUser = new User(user.idUser, user.nom, user.prenom, user.email, user.password, user.login, user.username);
                         
                         data.push(newUser);
                     }
-                    console.log(arrayUser);
+                    console.log(data);
                     resolve(data);
                 })
                 .catch((err: any) => {

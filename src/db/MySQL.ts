@@ -32,7 +32,7 @@ export default abstract class MySQL {
      * @returns {Promise < number >}
      * @memberof MySQL
      */
-    static insert(table: string, instance: User | Asset | Groupe | Message | Conversation ): Promise < number > {
+    static insert(table: string, instance: User | Asset | Groupe | Message | Conversation): Promise<number> {
         return new Promise((resolve, reject) => { // return Promise because the processing time of the database | The only way to get an answer is the "resolve()" or "reject()"
 
             const bdd: Connection = createConnection({ // Init params to database
@@ -61,7 +61,7 @@ export default abstract class MySQL {
             columns = columns.slice(0, -1); // delete the last carac.
             parameters = parameters.slice(0, -1);
             bdd.query(`INSERT INTO ${table} (${columns}) VALUES (${parameters})  `, data, (error, results, fields) => { // excute request sql
-                
+
                 if (error) {
                     reject(error); // Reponse promise false => catch
                     console.log(error);
@@ -83,7 +83,7 @@ export default abstract class MySQL {
      * @returns {*}
      * @memberof MySQL
      */
-    static select(table: listeTables, where ? : any): any {
+    static select(table: listeTables, where?: any): any {
         return new Promise((resolve, reject) => { // return Promise because the processing time of the database | The only way to get an answer is the "resolve()" or "reject()"
             const bdd: Connection = createConnection({ // Init params to database
                 host: process.env.DB_HOST,
@@ -114,7 +114,7 @@ export default abstract class MySQL {
                 conditionWhere += "`" + key + "` LIKE ? and ";
                 data.push(where[key]);
             }
-            
+
             conditionWhere = conditionWhere.slice(0, -5); // delete the last carac.
 
             columns = columns.slice(0, -1); // delete the last carac.
@@ -141,7 +141,7 @@ export default abstract class MySQL {
      * @returns {*}
      * @memberof MySQL
      */
-    static selectJoin(table: listeTables, join: Array < jointureInterface > , where ? : any): any {
+    static selectJoin(table: listeTables, join: Array<jointureInterface>, where?: any): any {
         return new Promise((resolve, reject) => { // return Promise because the processing time of the database | The only way to get an answer is the "resolve()" or "reject()"
             const bdd: Connection = createConnection({ // Init params to database
                 host: process.env.DB_HOST,
@@ -196,6 +196,52 @@ export default abstract class MySQL {
         })
 
     }
+    /*static uptade(table: listeTables, where ? : any): any {
+        return new Promise((resolve, reject) => { // return Promise because the processing time of the database | The only way to get an answer is the "resolve()" or "reject()"
+            const bdd: Connection = createConnection({ // Init params to database
+                host: process.env.DB_HOST,
+                user: process.env.DB_USER,
+                password: process.env.DB_PASS,
+                database: process.env.DB_DATABASE,
+                //socketPath: process.env.SOCKETPATH, // Socket to Mac or Linux
+                port: parseInt((process.env.PORTMYSQL === undefined) ? '3306' : process.env.PORTMYSQL) // 3306 port default to mysql
+            })
+            bdd.connect(err => {
+                if (err) console.log('Connection database error');
+            })
 
+            let data = []; // Stock value
+            let columns = "";
+            let conditionWhere = "";
+
+            let parameters = "";
+
+            const key = listAttributSelect[table].attribut // select is method to the Class => Array<string>
+
+            for (const champs of key) {
+                columns += "`" + champs + "`,";
+            }
+
+
+            for (const key in where) {
+                conditionWhere += "`" + key + "` LIKE ? and ";
+                data.push(where[key]);
+            }
+            
+            conditionWhere = conditionWhere.slice(0, -5); // delete the last carac.
+
+            columns = columns.slice(0, -1); // delete the last carac.
+            const query = bdd.query(`UPDATE ${table} ${columns} FROM  WHERE ${conditionWhere} ;`, [data], (error, results, fields) => { // excute request sql
+                if (error) {
+                    reject(error); // Reponse promise false => catch
+                    console.log(error);
+                } else
+                    resolve(results); // Reponse promise true => then or await
+                bdd.end(); // Close database
+            });
+
+        })
+
+    }*/
 
 }

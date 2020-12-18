@@ -15,7 +15,6 @@ const listAttributSelect: Record < listeTables, attributSelectInterface > = { //
     "user": {
         primaryKey: `idUser`,
         attribut: [`idUser`,`nom`, `prenom`, `email`, `password`, `status`, `login`, `username`]
-        //attribut: [`nom`,`prenom`]
     },
     "groupe": {
         primaryKey: `idgroupe`,
