@@ -1,6 +1,6 @@
 import { config } from "dotenv";
-import express from "express";
+import User from './src/models/User';
 
-config(); //process.env
-const app = express();
+User user1 = new User("kohler", "nicolas", "nicolas.kohler@imie-paris.fr", "password", "nkohler");
 
+//config(); //process.env

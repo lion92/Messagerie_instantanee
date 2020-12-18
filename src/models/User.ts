@@ -10,7 +10,7 @@ export default class User implements IUser{
     private username: string="";
     
 
-    constructor(nom: string, prenom: string, email: string, password: string, status: number, login: string,username?: string){
+    constructor(nom: string, prenom: string, email: string, password: string, login: string,username?: string){
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
@@ -18,6 +18,6 @@ export default class User implements IUser{
         this.status = 1;
         this.login = login;
 
-        if(username != undefined) this.username = username;
+        if(username !== undefined) this.username = username;
     }
 }
