@@ -3,10 +3,12 @@ export default class User implements IUser{
 
     private nom: string;
     private prenom: string;
-    private username: string;
     private email: string;
     private password: string;
-    private status : number;
+    private status: number=0;
+    private login: string;
+    private username: string = "";
+    
 
     constructor(){
         
