@@ -1,8 +1,20 @@
 import Asset from './Asset';
 import { IVideo } from '../interface/IVideo';
-export default class Video extends Asset implements IVideo{
+import MySQL from '../db/MySQL';
+export default class Video extends Asset {
 
-    constructor(nom: string, date_creation: Date){
-        super(nom,date_creation);
+    private id_Asset:number;
+
+    constructor(idVideo:number){
+        super(idVideo,1);
+        this.id_Asset=idVideo;
+    }
+    save(): Promise < number > {
+        return new Promise((resolve, reject) => {
+            MySQL.insert('video', this).then((id: number) => {
+                this.idAsset = id;
+                resolve(id)
+            })
+        })
     }
 }
