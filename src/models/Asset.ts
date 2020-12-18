@@ -31,7 +31,7 @@ export default class Asset implements IAsset{
         })
     }
 
-    get attribut(): Array < string > {
+    get attributInsert(): Array < string > {
         return ['nom_document', 'date_creation','groupe_idgroupe']
     }
     
@@ -39,11 +39,9 @@ export default class Asset implements IAsset{
         return this.idAsset;
     }
 
-
-
-
      toTimestamp(strDate:string):number{
        var datum = Date.parse(strDate);
        return datum/1000;
+
     }
 }
