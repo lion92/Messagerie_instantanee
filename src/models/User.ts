@@ -1,6 +1,7 @@
 import { IUser } from '../interface/IUser';
 export default class User implements IUser{
 
+
     private nom: string ="";
     private prenom: string="";
     private email: string="";
@@ -8,6 +9,7 @@ export default class User implements IUser{
     private status: number=0;
     private login: string="";
     private username: string="";
+
     
 
     constructor(nom: string, prenom: string, email: string, password: string, status: number, login: string,username?: string){
