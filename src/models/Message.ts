@@ -6,7 +6,10 @@ export default class Message implements IMessage{
     private contenu_message: string;
     private date_envoi: Date;
 
-    constructor(){
-        
+    constructor(id_emetteur: number, id_recepteur: number, contenu: string, date: Date){
+        this.id_user_emetteur = id_emetteur;
+        this.id_user_recepteur = id_recepteur;
+        this.contenu_message = contenu;
+        this.date_envoi = date;
     }
 }
