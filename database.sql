@@ -8,19 +8,19 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema messagerie_instantanee
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema messagerie_instantanee
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
+CREATE SCHEMA IF NOT EXISTS `messagerie_instantanee` DEFAULT CHARACTER SET utf8 ;
+USE `messagerie_instantanee` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`user`
+-- Table `messagerie_instantanee`.`user`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`user` (
+CREATE TABLE IF NOT EXISTS `messagerie_instantanee`.`user` (
   `iduser` INT NOT NULL AUTO_INCREMENT,
   `nom` VARCHAR(20) NULL,
   `prenom` VARCHAR(20) NULL,
@@ -36,9 +36,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`groupe`
+-- Table `messagerie_instantanee`.`groupe`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`groupe` (
+CREATE TABLE IF NOT EXISTS `messagerie_instantanee`.`groupe` (
   `idgroupe` INT NOT NULL AUTO_INCREMENT,
   `nomdugroupe` VARCHAR(45) NOT NULL,
   `administrateur` INT NOT NULL,
@@ -48,16 +48,16 @@ CREATE TABLE IF NOT EXISTS `mydb`.`groupe` (
   INDEX `fk_groupe_user1_idx` (`user_iduser` ASC) VISIBLE,
   CONSTRAINT `fk_groupe_user1`
     FOREIGN KEY (`user_iduser`)
-    REFERENCES `mydb`.`user` (`iduser`)
+    REFERENCES `messagerie_instantanee`.`user` (`iduser`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`asset`
+-- Table `messagerie_instantanee`.`asset`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`asset` (
+CREATE TABLE IF NOT EXISTS `messagerie_instantanee`.`asset` (
   `idasset` INT NOT NULL AUTO_INCREMENT,
   `nom_document` VARCHAR(45) NOT NULL,
   `date_creation` TIMESTAMP NULL,
@@ -68,46 +68,46 @@ CREATE TABLE IF NOT EXISTS `mydb`.`asset` (
   INDEX `fk_asset_groupe1_idx` (`groupe_idgroupe` ASC) VISIBLE,
   CONSTRAINT `fk_asset_groupe1`
     FOREIGN KEY (`groupe_idgroupe`)
-    REFERENCES `mydb`.`groupe` (`idgroupe`)
+    REFERENCES `messagerie_instantanee`.`groupe` (`idgroupe`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`image`
+-- Table `messagerie_instantanee`.`image`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`image` (
+CREATE TABLE IF NOT EXISTS `messagerie_instantanee`.`image` (
   `asset_idasset` INT NOT NULL,
   PRIMARY KEY (`asset_idasset`),
   INDEX `fk_image_asset1_idx` (`asset_idasset` ASC) VISIBLE,
   CONSTRAINT `fk_image_asset1`
     FOREIGN KEY (`asset_idasset`)
-    REFERENCES `mydb`.`asset` (`idasset`)
+    REFERENCES `messagerie_instantanee`.`asset` (`idasset`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`video`
+-- Table `messagerie_instantanee`.`video`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`video` (
+CREATE TABLE IF NOT EXISTS `messagerie_instantanee`.`video` (
   `asset_idasset` INT NOT NULL,
   PRIMARY KEY (`asset_idasset`),
   INDEX `fk_video_asset1_idx` (`asset_idasset` ASC) VISIBLE,
   CONSTRAINT `fk_video_asset1`
     FOREIGN KEY (`asset_idasset`)
-    REFERENCES `mydb`.`asset` (`idasset`)
+    REFERENCES `messagerie_instantanee`.`asset` (`idasset`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`conversation`
+-- Table `messagerie_instantanee`.`conversation`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`conversation` (
+CREATE TABLE IF NOT EXISTS `messagerie_instantanee`.`conversation` (
   `idconversation` INT NOT NULL AUTO_INCREMENT,
   `user_id_emetteur` INT NOT NULL,
   `user_id_recepteur` INT NOT NULL,
@@ -116,21 +116,21 @@ CREATE TABLE IF NOT EXISTS `mydb`.`conversation` (
   INDEX `fk_conversation_user2_idx` (`user_id_recepteur` ASC) VISIBLE,
   CONSTRAINT `fk_conversation_user1`
     FOREIGN KEY (`user_id_emetteur`)
-    REFERENCES `mydb`.`user` (`iduser`)
+    REFERENCES `messagerie_instantanee`.`user` (`iduser`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_conversation_user2`
     FOREIGN KEY (`user_id_recepteur`)
-    REFERENCES `mydb`.`user` (`iduser`)
+    REFERENCES `messagerie_instantanee`.`user` (`iduser`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`message`
+-- Table `messagerie_instantanee`.`message`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`message` (
+CREATE TABLE IF NOT EXISTS `messagerie_instantanee`.`message` (
   `idmessage` INT NOT NULL,
   `conversation_idconversation` INT NOT NULL,
   `user_iduser` INT NOT NULL,
@@ -141,21 +141,21 @@ CREATE TABLE IF NOT EXISTS `mydb`.`message` (
   INDEX `fk_message_user1_idx` (`user_iduser` ASC) VISIBLE,
   CONSTRAINT `fk_message_conversation1`
     FOREIGN KEY (`conversation_idconversation`)
-    REFERENCES `mydb`.`conversation` (`idconversation`)
+    REFERENCES `messagerie_instantanee`.`conversation` (`idconversation`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_message_user1`
     FOREIGN KEY (`user_iduser`)
-    REFERENCES `mydb`.`user` (`iduser`)
+    REFERENCES `messagerie_instantanee`.`user` (`iduser`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`membre`
+-- Table `messagerie_instantanee`.`membre`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`membre` (
+CREATE TABLE IF NOT EXISTS `messagerie_instantanee`.`membre` (
   `user_iduser` INT NOT NULL,
   `groupe_idgroupe` INT NOT NULL,
   PRIMARY KEY (`user_iduser`, `groupe_idgroupe`),
@@ -163,12 +163,12 @@ CREATE TABLE IF NOT EXISTS `mydb`.`membre` (
   INDEX `fk_user_has_groupe_user1_idx` (`user_iduser` ASC) VISIBLE,
   CONSTRAINT `fk_user_has_groupe_user1`
     FOREIGN KEY (`user_iduser`)
-    REFERENCES `mydb`.`user` (`iduser`)
+    REFERENCES `messagerie_instantanee`.`user` (`iduser`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_has_groupe_groupe1`
     FOREIGN KEY (`groupe_idgroupe`)
-    REFERENCES `mydb`.`groupe` (`idgroupe`)
+    REFERENCES `messagerie_instantanee`.`groupe` (`idgroupe`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
