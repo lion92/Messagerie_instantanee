@@ -15,7 +15,6 @@ class Asset {
             this.id_asset = id_asset;
     }
     save() {
-        console.log("0");
         return new Promise((resolve, reject) => {
             MySQL_1.default.insert('asset', this).then((id) => {
                 this.id_asset = id;

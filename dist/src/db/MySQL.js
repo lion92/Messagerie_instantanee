@@ -35,7 +35,6 @@ class MySQL {
                 if (err)
                     console.log('Connection database error');
             });
-            console.log("1");
             let data = []; // Stock value
             let columns = "";
             let parameters = "";
@@ -44,10 +43,8 @@ class MySQL {
                     columns += "`" + key + "`,";
                     parameters += "?,";
                     data.push(value);
-                    console.log(columns);
                 }
             }
-            console.log("2");
             columns = columns.slice(0, -1); // delete the last carac.
             parameters = parameters.slice(0, -1);
             bdd.query(`INSERT INTO ${table} (${columns}) VALUES (${parameters})  `, data, (error, results, fields) => {
