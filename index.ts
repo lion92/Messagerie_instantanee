@@ -16,17 +16,19 @@ config(); //process.env
 try {
 
     //nico---------------------------------------
-    const user1 = new User(null, "kohler", "gilles", "nicolas.krohleghr@imie-paris.fr", "password", "nkhhohrler", "username");
-    //user1.save();
-    //User.select({ nom: "kohler" });
+    const user1 = new User(null, "kohler", "nicolas", "nicolas.krohler@imie-paris.fr", "password", "nkohler", "username");
+    user1.save().then((id: number) => {
+        User.delete({id_user: id-1});
+        //User.select({ nom: "kohler" });
+    });
+
     //Kriss-----------------------------------------------
     const asset = new Asset(null, 1, "zzz");
     asset.save().then((id: number) => {
 
         //const image = new Image(id);
         //image.save();
-    })
-    //asset.save();
+    });
 
 } catch (error) {
     console.log(error);

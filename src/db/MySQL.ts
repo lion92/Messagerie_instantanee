@@ -1,4 +1,4 @@
-import { createConnection, Connection } from 'mysql';
+import { createConnection, Connection, ConnectionConfig } from 'mysql';
 import listAttributSelect, { listeTables } from '../utils/listAttributSelect';
 import User from '../models/User';
 import Asset from '../models/Asset';
@@ -23,6 +23,19 @@ export interface jointureInterface {
  */
 export default abstract class MySQL {
 
+    static param_db(): ConnectionConfig {
+        let bdd: ConnectionConfig =
+        { // Init params to database
+            host: process.env.DB_HOST,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASS,
+            database: process.env.DB_DATABASE,
+            //socketPath: process.env.SOCKETPATH, // Socket to Mac or Linux
+            port: parseInt((process.env.PORTMYSQL === undefined) ? '3306' : process.env.PORTMYSQL) // 3306 port default to mysql
+        }
+        return bdd;
+    }
+
     /**
      *
      * Insertion of any defined entity
@@ -46,7 +59,7 @@ export default abstract class MySQL {
             bdd.connect(err => {
                 if (err) console.log('Connection database error');
             });
-            
+
             let data = []; // Stock value
             let columns = "";
             let parameters = "";
@@ -83,7 +96,7 @@ export default abstract class MySQL {
      * @returns {*}
      * @memberof MySQL
      */
-    static select(table: listeTables, where?: any): any {
+    static select(table: listeTables, where?: any): Promise<Array<User>> {
         return new Promise((resolve, reject) => { // return Promise because the processing time of the database | The only way to get an answer is the "resolve()" or "reject()"
             const bdd: Connection = createConnection({ // Init params to database
                 host: process.env.DB_HOST,
@@ -101,14 +114,11 @@ export default abstract class MySQL {
             let columns = "";
             let conditionWhere = "";
 
-            let parameters = "";
-
             const key = listAttributSelect[table].attribut // select is method to the Class => Array<string>
 
             for (const champs of key) {
                 columns += "`" + champs + "`,";
             }
-
 
             for (const key in where) {
                 conditionWhere += "`" + key + "` LIKE ? and ";
@@ -130,7 +140,48 @@ export default abstract class MySQL {
         })
 
     }
+//Si physiquement vous etiez le reflet l'une de lautre, magiquement vous etiez diametralement l'opposée
+    
+    static delete(table: listeTables, where?: Object): Promise<number> {
+        return new Promise((resolve, reject) => { // return Promise because the processing time of the database | The only way to get an answer is the "resolve()" or "reject()"
+            const bdd: Connection = createConnection(this.param_db());
+            bdd.connect(err => {
+                if (err) console.log('Connection database error');
+            })
 
+            let data = []; // Stock value
+            let columns = "";
+            let conditionWhere = "";
+
+            const key = listAttributSelect[table].attribut // select is method to the Class => Array<string>
+
+            for (const champs of key) {
+                columns += "`" + champs + "`,";
+            }
+
+            //faire
+            console.log(where);
+            for (const key in where) {
+                conditionWhere += "`" + key + "` LIKE ? and ";
+                console.log(key);
+                data.push(where.toString());
+            }
+
+            conditionWhere = conditionWhere.slice(0, -5); // delete the last carac.
+            console.log(`DELETE FROM ${table} WHERE ${conditionWhere} ;` + data);
+            columns = columns.slice(0, -1); // delete the last carac.
+            const query = bdd.query(`DELETE FROM ${table} WHERE ${conditionWhere} ;`, [data], (error, results, fields) => { // excute request sql
+                if (error) {
+                    reject(error); // Reponse promise false => catch
+                    console.log(error);
+                } else
+                    resolve(results.affectedRows); // Reponse promise true => then or await
+                bdd.end(); // Close database
+            });
+
+        })
+
+    }
     /**
      *
      *
@@ -196,4 +247,5 @@ export default abstract class MySQL {
         })
 
     }
+
 }
