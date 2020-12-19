@@ -141,7 +141,7 @@ export default abstract class MySQL {
 
     }
 
-    static delete(table: listeTables, where?: Object): Promise<number> {
+    static delete(table: listeTables, where: Object): Promise<number> {
         return new Promise((resolve, reject) => { // return Promise because the processing time of the database | The only way to get an answer is the "resolve()" or "reject()"
             const bdd: Connection = createConnection(this.param_db());
             bdd.connect(err => {
@@ -151,21 +151,21 @@ export default abstract class MySQL {
             let data = []; // Stock value
             let conditionWhere = "";
 
-            if (where !== undefined) {
-                console.log(where);
-                let i = 0;
-                for (let key of Object.keys(where)) {
+            let i = 0;
+            for (let key of Object.keys(where)) {
 
-                    conditionWhere += "`" + key + "` = ? and ";
-                    let value = Object.values(where)[i];
-                    data.push(value);
-                    i++;
-                }
+                conditionWhere += "`" + key + "` = ? and ";
+                let value = Object.values(where)[i];
+                console.log(Object.values(where));
+                console.log(value);
+                data.push(value);
+                i++;
             }
-            if(conditionWhere === "") reject("Aucun parametre rentrer dans la fonction delete de Mysql.ts");
+
+            if (conditionWhere === "" ) reject("Aucun parametre rentrer dans la fonction delete de Mysql.ts");
             conditionWhere = conditionWhere.slice(0, -5); // delete the last carac.
-            console.log(`DELETE FROM ${table} WHERE ${conditionWhere} ;` + [data]);
-            const query = bdd.query(`DELETE FROM ${table} WHERE ${conditionWhere} ;`, [data], (error, results, fields) => { // excute request sql
+            
+            const query = bdd.query(`DELETE FROM ${table} WHERE ${conditionWhere} ;`, data, (error, results, fields) => { // excute request sql
                 if (error) {
                     reject(error); // Reponse promise false => catch
                     console.log(error);

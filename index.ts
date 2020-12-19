@@ -36,7 +36,7 @@ try {
         video.save();
     })
 
-    const message=new Message(null, 1,1,"dzefzjb");
+    const message=new Message(null, 1, 1,"dzefzjb");
     const test3=message.save();
     //asset.save();
 
