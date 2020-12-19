@@ -69,4 +69,16 @@ export default class User implements IUser{
                 });
         })
     }
+    static update(update: Object, where: Object) {
+        return new Promise((resolve, reject) => {
+            MySQL.update('user', update, where).then((modifiedRows: number ) => {                    
+                    console.log("Update User(s) : "+modifiedRows);
+                    resolve(modifiedRows);
+                })
+                .catch((err: any) => {
+                    console.log(err);
+                    reject(false)
+                });
+        })
+    }
 }

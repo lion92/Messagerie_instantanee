@@ -128,7 +128,7 @@ export default abstract class MySQL {
             conditionWhere = conditionWhere.slice(0, -5); // delete the last carac.
 
             columns = columns.slice(0, -1); // delete the last carac.
-            const query = bdd.query(`SELECT ${columns} FROM ${table} WHERE ${conditionWhere} ;`, [data], (error, results, fields) => { // excute request sql
+            const query = bdd.query(`SELECT ${columns} FROM ${table} WHERE ${conditionWhere} ;`, data, (error, results, fields) => { // excute request sql
                 if (error) {
                     reject(error); // Reponse promise false => catch
                     console.log(error);
@@ -156,8 +156,6 @@ export default abstract class MySQL {
 
                 conditionWhere += "`" + key + "` = ? and ";
                 let value = Object.values(where)[i];
-                console.log(Object.values(where));
-                console.log(value);
                 data.push(value);
                 i++;
             }
@@ -171,6 +169,53 @@ export default abstract class MySQL {
                     console.log(error);
                 } else
                     resolve(results.affectedRows); // Reponse promise true => then or await
+                bdd.end(); // Close database
+            });
+
+        })
+
+    }
+
+    static update(table: listeTables, update: Object, where: Object): Promise<number> {
+        return new Promise((resolve, reject) => { // return Promise because the processing time of the database | The only way to get an answer is the "resolve()" or "reject()"
+            const bdd: Connection = createConnection(this.param_db());
+            bdd.connect(err => {
+                if (err) console.log('Connection database error');
+            })
+
+            let data = []; // Stock value
+            let conditionWhere = "";
+            let elementUpdate = "";
+
+            let i = 0;
+            for (let key of Object.keys(update)) {
+
+                elementUpdate += "`" + key + "` = ?,";
+                let value = Object.values(update)[i];
+                data.push(value);
+                i++;
+            }
+            elementUpdate = elementUpdate.slice(0, -1); // delete the last carac.
+
+            i = 0;
+            for (let key of Object.keys(where)) {
+
+                conditionWhere += "`" + key + "` = ? AND ";
+                let value = Object.values(where)[i];
+                data.push(value);
+                i++;
+            }
+
+            conditionWhere = conditionWhere.slice(0, -5); // delete the last carac.
+            
+            const query = bdd.query(`UPDATE ${table} SET ${elementUpdate} WHERE ${conditionWhere} ;`, data, (error, results, fields) => { // excute request sql
+                if (error) {
+                    reject(error); // Reponse promise false => catch
+                    console.log(error);
+                } else{
+                    resolve(results.affectedRows); // Reponse promise true => then or await
+                }
+                    
                 bdd.end(); // Close database
             });
 
