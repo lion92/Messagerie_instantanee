@@ -9,7 +9,7 @@ export default class Image extends Asset {
         super(id_image);
        this.asset_idasset=this.id_asset;
     }
-    get attribut(): Array < string > {
+    get attributInsert(): Array<string> {
         return ['asset_idasset'];
     }
     
