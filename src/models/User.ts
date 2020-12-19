@@ -37,7 +37,7 @@ export default class User implements IUser{
             })
         })
     }
-    static select(where: any) {
+    static select(where: Object) {
         return new Promise((resolve, reject) => {
             MySQL.select('user', where).then((arrayUser: Array < User > ) => {
                     let newUser : User;
@@ -45,13 +45,12 @@ export default class User implements IUser{
                     for (const user of arrayUser) {
                         if(user.id_user === undefined ) user.id_user = null;
                         newUser = new User(user.id_user, user.nom, user.prenom, user.email, user.password, user.login, user.username);
-                        
                         data.push(newUser);
                     }
                     console.log(data);
                     resolve(data);
                 })
-                .catch((err: any) => {
+                .catch((err) => {
                     console.log(err);
                     reject(false)
                 });
@@ -63,7 +62,7 @@ export default class User implements IUser{
                     console.log("Deleted User(s) : "+deletedRows);
                     resolve(deletedRows);
                 })
-                .catch((err: any) => {
+                .catch((err) => {
                     console.log(err);
                     reject(false)
                 });
@@ -75,7 +74,7 @@ export default class User implements IUser{
                     console.log("Update User(s) : "+modifiedRows);
                     resolve(modifiedRows);
                 })
-                .catch((err: any) => {
+                .catch((err) => {
                     console.log(err);
                     reject(false)
                 });
