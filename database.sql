@@ -39,7 +39,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `messagerie_instantanee`.`groupe` (
   `id_groupe` INT NOT NULL AUTO_INCREMENT,
   `nom_groupe` VARCHAR(45) NOT NULL,
-  `id_dministrateur` INT NOT NULL,
+  `id_administrateur` INT NOT NULL,
   `date_creation` TIMESTAMP NOT NULL,
   `user_iduser` INT NOT NULL,
   PRIMARY KEY (`id_groupe`),

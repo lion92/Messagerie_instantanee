@@ -1,4 +1,4 @@
-export type listeTables = "user" | "groupe" | "asset" | "conversation" | "membre" | "message";
+export type listeTables = "user" | "image" | "groupe" | "video" | "asset" | "conversation" | "membre" | "message";
 
 interface attributSelectInterface {
     primaryKey: string;
@@ -18,16 +18,12 @@ const listAttributSelect: Record < listeTables, attributSelectInterface > = { //
     },
     "groupe": {
         primaryKey: `id_groupe`,
-        attribut: [`nom_groupe`, `id_dministrateur`, `date_creation`, `id_user`]
+        attribut: [`nom_groupe`, `id_administrateur`, `date_creation`, `user_iduser`]
 
-    },
-    "asset": {
-        primaryKey: `id_asset`,
-        attribut: [`id_asset`,`nom_document`, `date_creation`, `descriptif`, `url`, `groupe_idgroupe`]
     },
     "conversation": {
         primaryKey: `id_conversation`,
-        attribut: [`id_conversation`,`user_id_emetteur`, `user_id_recepteur`]
+        attribut: [`user_id_emetteur`, `user_id_recepteur`]
     },
     "membre": {
         primaryKey: `user_iduser`,
@@ -35,8 +31,20 @@ const listAttributSelect: Record < listeTables, attributSelectInterface > = { //
     },
     "message": {
         primaryKey: `id_message`,
-        attribut: [`id_message`,`conversation_idconversation`, `user_iduser`, `contenu_message`, `date_heure`]
+        attribut: [`conversation_idconversation`, `user_iduser`, `contenu_message`, `date_heure`]
     },
+    "asset": {
+        primaryKey: `idasset`,
+        attribut: [`nom_document`, `date_creation`, `descriptif`, `url`, `groupe_idgroupe`]
+    },
+    "video": {
+        primaryKey: `asset_idasset`,
+        attribut: [`asset_idasset`]
+    },
+    "image": {
+        primaryKey: `asset_idasset`,
+        attribut: [`asset_idasset`]
+    }
 };
 
 // export default { listAttributSelect, listeTables };
