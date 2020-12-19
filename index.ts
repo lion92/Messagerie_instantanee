@@ -27,6 +27,8 @@ try {
         })
     });
 
+
+
     //Kriss-----------------------------------------------
     const asset = new Asset(null, 1, "zzz");
     asset.save().then((id: number) => {
@@ -35,6 +37,15 @@ try {
         const video = new Image(id);
         video.save();
     })
+    const asset1 = new Asset(null, 1,"essai")
+    Asset.delete({ id_asset: 240 })
+    asset1.save().then((id: number) => {
+        Asset.select({id_asset: id });
+        //Asset.delete({ id_asset: id - 1 }).then(() => {
+           Asset.update({nom_document:'ggggg', descriptif:'frrfr',url:'frfr'}, { id_asset: id });
+           
+        //})
+    });
 
     const message = new Message(null, 1, 1, "dzefzjb");
     const test3 = message.save();
