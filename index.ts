@@ -9,6 +9,7 @@ import MySQL from './src/db/MySQL';
 import Asset from "./src/models/Asset";
 import Image from "./src/models/Image";
 import Groupe from "./src/models/Groupe";
+import Message from "./src/models/Message";
 
 
 config(); //process.env
@@ -29,6 +30,8 @@ try {
         //const image = new Image(id);
         //image.save();
     })
+    const message=new Message(null, 1,1,"dzefzjb");
+    const test3=message.save();
     //asset.save();
 
 } catch (error) {
