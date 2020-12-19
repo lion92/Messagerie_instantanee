@@ -18,7 +18,8 @@ try {
     //nico---------------------------------------
     const user1 = new User(null, "kohler", "nicolas", "nicolas.krohler@imie-paris.fr", "password", "nkohler", "username");
     user1.save().then((id: number) => {
-        User.delete({id_user: id-1});
+        //User.delete({id_user: id-1});
+        User.delete({prenom: 'nicolas', nom: 'kohler'});
         //User.select({ nom: "kohler" });
     });
 

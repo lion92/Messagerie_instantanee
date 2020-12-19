@@ -96,7 +96,7 @@ export default abstract class MySQL {
      * @returns {*}
      * @memberof MySQL
      */
-    static select(table: listeTables, where?: any): Promise<Array<User>> {
+    static select(table: listeTables, where?: any): Promise<Array<any>> {
         return new Promise((resolve, reject) => { // return Promise because the processing time of the database | The only way to get an answer is the "resolve()" or "reject()"
             const bdd: Connection = createConnection({ // Init params to database
                 host: process.env.DB_HOST,
@@ -140,8 +140,7 @@ export default abstract class MySQL {
         })
 
     }
-//Si physiquement vous etiez le reflet l'une de lautre, magiquement vous etiez diametralement l'opposée
-    
+
     static delete(table: listeTables, where?: Object): Promise<number> {
         return new Promise((resolve, reject) => { // return Promise because the processing time of the database | The only way to get an answer is the "resolve()" or "reject()"
             const bdd: Connection = createConnection(this.param_db());
@@ -150,26 +149,22 @@ export default abstract class MySQL {
             })
 
             let data = []; // Stock value
-            let columns = "";
             let conditionWhere = "";
 
-            const key = listAttributSelect[table].attribut // select is method to the Class => Array<string>
+            if (where !== undefined) {
+                console.log(where);
+                let i = 0;
+                for (let key of Object.keys(where)) {
 
-            for (const champs of key) {
-                columns += "`" + champs + "`,";
+                    conditionWhere += "`" + key + "` = ? and ";
+                    let value = Object.values(where)[i];
+                    data.push(value);
+                    i++;
+                }
             }
-
-            //faire
-            console.log(where);
-            for (const key in where) {
-                conditionWhere += "`" + key + "` LIKE ? and ";
-                console.log(key);
-                data.push(where.toString());
-            }
-
+            if(conditionWhere === "") reject("Aucun parametre rentrer dans la fonction delete de Mysql.ts");
             conditionWhere = conditionWhere.slice(0, -5); // delete the last carac.
-            console.log(`DELETE FROM ${table} WHERE ${conditionWhere} ;` + data);
-            columns = columns.slice(0, -1); // delete the last carac.
+            console.log(`DELETE FROM ${table} WHERE ${conditionWhere} ;` + [data]);
             const query = bdd.query(`DELETE FROM ${table} WHERE ${conditionWhere} ;`, [data], (error, results, fields) => { // excute request sql
                 if (error) {
                     reject(error); // Reponse promise false => catch
