@@ -24,6 +24,8 @@ try {
         User.select({ id_user: id });
         User.delete({ id_user: id - 1 }).then(() => {
             User.update({ nom: 'kohler2', prenom: 'nicolas6' }, { id_user: id });
+            User.selectJoin('user',{id_user: 1});
+
         })
     });
 
