@@ -17,4 +17,7 @@ export default class Video extends Asset {
             })
         })
     }
+    get attributInsert(): Array<string> {
+        return ['asset_idasset'];
+    }
 }

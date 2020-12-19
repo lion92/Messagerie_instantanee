@@ -25,11 +25,12 @@ try {
     //Kriss-----------------------------------------------
     const asset = new Asset(null, 1, "zzz");
     asset.save().then((id: number) => {
-    const groupe=new Groupe(null,"bonjour",1,1);
-    const b=groupe.save();
-        //const image = new Image(id);
-        //image.save();
+    //const groupe=new Groupe(null,"bonjour",1,1);
+    //onst b=groupe.save();
+        const video= new Image(id);
+        video.save();
     })
+
     const message=new Message(null, 1,1,"dzefzjb");
     const test3=message.save();
     //asset.save();
