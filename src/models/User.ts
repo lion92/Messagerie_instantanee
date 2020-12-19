@@ -57,4 +57,19 @@ export default class User implements IUser{
                 });
         })
     }
+    static delete(where: any) {
+        return new Promise((resolve, reject) => {
+            MySQL.delete('user', where).then((deletedRows: number ) => {
+                    //let newUser : User;
+                    let data: any = [];
+                    
+                    console.log("Deleted User(s) : "+deletedRows);
+                    resolve(deletedRows);
+                })
+                .catch((err: any) => {
+                    console.log(err);
+                    reject(false)
+                });
+        })
+    }
 }

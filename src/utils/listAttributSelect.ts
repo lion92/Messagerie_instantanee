@@ -19,22 +19,23 @@ const listAttributSelect: Record < listeTables, attributSelectInterface > = { //
     "groupe": {
         primaryKey: `id_groupe`,
         attribut: [`nom_groupe`, `id_dministrateur`, `date_creation`, `id_user`]
+
     },
     "asset": {
         primaryKey: `id_asset`,
-        attribut: [`nom_document`, `date_creation`, `descriptif`, `url`, `groupe_idgroupe`]
+        attribut: [`id_asset`,`nom_document`, `date_creation`, `descriptif`, `url`, `groupe_idgroupe`]
     },
     "conversation": {
         primaryKey: `id_conversation`,
-        attribut: [`user_id_emetteur`, `user_id_recepteur`]
+        attribut: [`id_conversation`,`user_id_emetteur`, `user_id_recepteur`]
     },
     "membre": {
         primaryKey: `user_iduser`,
-        attribut: [`groupe_idgroupe`]
+        attribut: [`user_iduser`,`groupe_idgroupe`]
     },
     "message": {
         primaryKey: `id_message`,
-        attribut: [`conversation_idconversation`, `user_iduser`, `contenu_message`, `date_heure`]
+        attribut: [`id_message`,`conversation_idconversation`, `user_iduser`, `contenu_message`, `date_heure`]
     },
 };
 
