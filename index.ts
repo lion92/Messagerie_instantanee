@@ -14,6 +14,7 @@ import Conversation from "./src/models/Conversation";
 import Membre from "./src/models/Membre";
 import PasswordException from "./src/exception/PasswordException";
 import { GroupeController } from "./src/controller/GroupeController";
+import { GroupeRoute } from "./src/routes/GroupeRoute";
 
 
 
@@ -121,6 +122,7 @@ try {
     app.use(bodyParser.urlencoded({ extended: true }))
 
     app.use('/auth', AuthentificationRoute);
+    app.use('/groupe', GroupeRoute);
 
 
     app.listen(process.env.PORT, () => {

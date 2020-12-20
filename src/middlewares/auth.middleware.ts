@@ -92,7 +92,7 @@ export const loginMidd = (req: Request, res: Response, next: () => void) => {
 export const groupe3= (req: Request, res: Response, next: () => void) => {
 
     console.log('middleware run');
-    /*
+    
     let data: any = req.body;
 
     const champsRequire = ['nom_groupe', 'id_administrateur','user_iduser' ]
@@ -123,5 +123,5 @@ export const groupe3= (req: Request, res: Response, next: () => void) => {
     } catch (err) {
          return res.status(401).json({ error: true, message: err.message }).end();
     }
-    */
+    
 }
