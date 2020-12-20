@@ -10,6 +10,7 @@ import Asset from "./src/models/Asset";
 import Image from "./src/models/Image";
 import Groupe from "./src/models/Groupe";
 import Message from "./src/models/Message";
+import Conversation from "./src/models/Conversation";
 
 
 config(); //process.env
@@ -65,6 +66,15 @@ try {
         Message.select({id_message: id });
         //Groupe.delete({ id_groupe: 6}).then(() => {
            Message.update({contenu_message:'bonjour1' }, { id_message: id });
+           
+
+      //  })
+    });
+    const conversation1= new Conversation(null,1,2)
+    conversation1.save().then((id: number) => {
+        Message.select({id_conversation: id });
+        //Groupe.delete({ id_groupe: 6}).then(() => {
+           Message.update({ }, { id_message: id });
            
 
       //  })
