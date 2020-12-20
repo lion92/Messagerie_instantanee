@@ -7,7 +7,8 @@ import User from '../models/User';
 import Conversation from '../models/Conversation';
 import Message from '../models/Message';
 
-const expirationToken = '1m';
+const split = (token: string) => { return token.split('Bearer ').join('') }
+const expirationToken = '5m';
 
 export class AuthController {
 
@@ -40,17 +41,17 @@ export class AuthController {
 
         try {
             let arrayUser: Array<User> = await User.select({ email: data.email });
-            
+
             if (arrayUser.length === 0)
                 throw new Error(`Email don't exist!`)
-            let user : User = <User> arrayUser.pop();
+            let user: User = <User>arrayUser.pop();
             const passwordIsOk = await PasswordException.comparePassword(data.password, user._password);
 
             if (!passwordIsOk)
                 throw new Error(`Wrong password`)
 
             const theToken: any = await sign({ id: user.id_user }, <string>process.env.JWT_KEY, { expiresIn: expirationToken })
-            
+
             const token = {
                 token: theToken,
                 expired: await (<any>decode(theToken)).exp,
@@ -63,19 +64,17 @@ export class AuthController {
     }
 
     refreshToken = async (req: Request, res: Response) => { }
-    
-    static checkToken = async (req: Request, res: Response) => { 
-        const authHeader = req.headers['authorization'];
-        if (authHeader !== undefined) {
-            if (authHeader.startsWith("Bearer ")) {
-                const tokenAuth = authHeader.substring(7, authHeader.length);
-                try {
-                    var decoded = verify(tokenAuth, <string>process.env.JWT_KEY);
-                    return {tokenExpired : false};
-                  } catch(err) {
-                    return {tokenExpired : true, error: err};
-                  }
-            }
+
+    static checkToken = async (req: Request, res: Response) => {
+        
+        try {
+            let tokenAuth = "" ;
+            if (req.headers.authorization) tokenAuth = split(req.headers.authorization);
+
+            verify(tokenAuth, <string>process.env.JWT_KEY);
+            return { tokenExpired: false };
+        } catch (err) {
+            return { tokenExpired: true, error: err };
         }
     }
     logout = async (req: Request, res: Response) => { }
