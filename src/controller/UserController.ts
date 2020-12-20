@@ -1,4 +1,4 @@
-import { decode, sign } from 'jsonwebtoken';
+import { decode, sign, TokenExpiredError } from 'jsonwebtoken';
 import { Request, Response } from 'express';
 
 
