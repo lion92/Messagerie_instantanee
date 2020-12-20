@@ -11,6 +11,7 @@ import Image from "./src/models/Image";
 import Groupe from "./src/models/Groupe";
 import Message from "./src/models/Message";
 import Conversation from "./src/models/Conversation";
+import Membre from "./src/models/Membre";
 
 
 config(); //process.env
@@ -57,6 +58,15 @@ try {
         Groupe.select({id_groupe: id });
         //Groupe.delete({ id_groupe: 6}).then(() => {
            Groupe.update({nom_groupe:'frref', id_dministrateur:2,user_iduser:2 }, { id_groupe: id });
+           
+
+      //  })
+    });
+    const membre= new Membre(1,1)
+    membre.save().then((id: number) => {
+        Groupe.select({user_iduser: id });
+        //Groupe.delete({ id_groupe: 6}).then(() => {
+           Groupe.update({ }, { user_iduser: id });
            
 
       //  })
