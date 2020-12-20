@@ -37,11 +37,7 @@ export default class Asset implements IAsset {
         return this.id_asset;
     }
 
-    toTimestamp(strDate: string): number {
-        var datum = Date.parse(strDate);
-        return datum / 1000;
-
-    }
+   
     static update(update: Object, where: Object) {
         return new Promise((resolve, reject) => {
             MySQL.update('asset', update, where).then((modifiedRows: number ) => {                    
