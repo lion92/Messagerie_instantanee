@@ -23,7 +23,7 @@ const listAttributSelect: Record < listeTables, attributSelectInterface > = { //
     },
     "conversation": {
         primaryKey: `id_conversation`,
-        attribut: [`user_id_emetteur`, `user_id_recepteur`]
+        attribut: [`id_conversation`,`user_id_emetteur`, `user_id_recepteur`]
     },
     "membre": {
         primaryKey: `user_iduser`,

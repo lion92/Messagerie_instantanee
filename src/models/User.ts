@@ -153,7 +153,17 @@ export default class User implements IUser {
                 });
         })
     }
-
+    static userExiste(id_user: number) {
+        return new Promise((resolve, reject) => {
+            MySQL.select('user', { id_user: id_user }).then((arrayClient: Array < any > ) => {
+                    resolve((arrayClient.length > 0))
+                })
+                .catch((err: any) => {
+                    console.log(err);
+                    reject(false)
+                });
+        })
+    }
     
 
 
