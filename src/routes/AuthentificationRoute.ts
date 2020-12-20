@@ -2,7 +2,6 @@ import { AuthController } from '../controller/AuthController';
 import { Router } from 'express';
 import {Request, Response} from 'express';
 import { loginMidd, registerMidd, authMidd, groupe3} from '../middlewares/auth.middleware';
-
 import { GroupeController } from '../controller/GroupeController';
 
 const route: Router = Router();

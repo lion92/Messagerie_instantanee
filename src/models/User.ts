@@ -27,8 +27,11 @@ export default class User implements IUser {
         this.login = login;
         this.username = username;
     }
-    get id() : number{
-        return <number> this.id_user;
+    get id(): number {
+        return <number>this.id_user;
+    }
+    get _password(): string{
+        return this.password;
     }
     get attributInsert(): Array<string> {
         return [`id_user`, `nom`, `prenom`, `email`, `password`, `login`, `username`, `status`];
@@ -45,7 +48,7 @@ export default class User implements IUser {
             })
         })
     }
-    static select(where: Object) {
+    static select(where: Object) : Promise<Array<User>> {
         return new Promise((resolve, reject) => {
             MySQL.select('user', where).then((arrayUser: Array<User>) => {
                 let newUser: User;
@@ -82,16 +85,16 @@ export default class User implements IUser {
                     foreignKey: 'user_id_emetteur'
                 }
             }
-            /*,
-            {
-                type: 'INNER',
-                table: 'message',
-                where: {
+                /*,
+                {
+                    type: 'INNER',
                     table: 'message',
-                    foreignKey: 'user_iduser'
-                }
-            }*/
-        ];
+                    where: {
+                        table: 'message',
+                        foreignKey: 'user_iduser'
+                    }
+                }*/
+            ];
             MySQL.selectJoin(tableJoin, join, where).then((arrayUser: Array<any>) => {
                 let newUser: User;
                 let newGroupe: Groupe;
@@ -100,15 +103,15 @@ export default class User implements IUser {
                 for (const element of arrayUser) {
                     newUser = new User(element.id_user, element.nom, element.prenom, element.email, element.password, element.login, element.username);
                     data.push(newUser);
-                    
-                    newGroupe = new Groupe(element.id_groupe,element.nom_groupe,element.id_administrateur,element.user_iduser);
+
+                    newGroupe = new Groupe(element.id_groupe, element.nom_groupe, element.id_administrateur, element.user_iduser);
                     data.push(newGroupe);
-                    
-                    newConversation = new Conversation(element.id_conversation,element.user_id_emetteur,element.user_id_recepteur);
+
+                    newConversation = new Conversation(element.id_conversation, element.user_id_emetteur, element.user_id_recepteur);
                     data.push(newConversation);
                 }
-                    
-                
+
+
                 console.log(data);
                 resolve(data);
             }).catch((err) => {
@@ -144,9 +147,9 @@ export default class User implements IUser {
 
     static isExiste(email: string) {
         return new Promise((resolve, reject) => {
-            MySQL.select('user', { email: email }).then((arrayClient: Array < any > ) => {
-                    resolve((arrayClient.length > 0))
-                })
+            MySQL.select('user', { email: email }).then((arrayClient: Array<any>) => {
+                resolve((arrayClient.length > 0))
+            })
                 .catch((err: any) => {
                     console.log(err);
                     reject(false)
@@ -155,16 +158,16 @@ export default class User implements IUser {
     }
     static userExiste(id_user: number) {
         return new Promise((resolve, reject) => {
-            MySQL.select('user', { id_user: id_user }).then((arrayClient: Array < any > ) => {
-                    resolve((arrayClient.length > 0))
-                })
+            MySQL.select('user', { id_user: id_user }).then((arrayClient: Array<any>) => {
+                resolve((arrayClient.length > 0))
+            })
                 .catch((err: any) => {
                     console.log(err);
                     reject(false)
                 });
         })
     }
-    
+
 
 
 }

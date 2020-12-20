@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `messagerie_instantanee`.`message` (
   `id_message` INT NOT NULL AUTO_INCREMENT,
   `conversation_idconversation` INT NOT NULL,
   `user_iduser` INT NOT NULL,
-  `contenu_message` VARCHAR(45) NULL,
+  `contenu_message` VARCHAR(100) NULL,
   `date_heure` TIMESTAMP NULL,
   PRIMARY KEY (`id_message`),
   INDEX `fk_message_conversation1_idx` (`conversation_idconversation` ASC) ,

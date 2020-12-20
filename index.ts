@@ -13,10 +13,10 @@ import Message from "./src/models/Message";
 import Conversation from "./src/models/Conversation";
 import Membre from "./src/models/Membre";
 import PasswordException from "./src/exception/PasswordException";
+import { UserRoute } from "./src/routes/UserRoute";
 import { GroupeController } from "./src/controller/GroupeController";
 import { GroupeRoute } from "./src/routes/GroupeRoute";
 import { AssetRoute } from "./src/routes/AssetRoute";
-
 
 
 config(); //process.env
@@ -123,9 +123,9 @@ try {
     app.use(bodyParser.urlencoded({ extended: true }))
 
     app.use('/auth', AuthentificationRoute);
+    app.use('/user', UserRoute);
     app.use('/groupe', GroupeRoute);
     app.use('/asset', AssetRoute);
-
 
     app.listen(process.env.PORT, () => {
         console.log(`Server run to http://localhost:${process.env.PORT}`);
