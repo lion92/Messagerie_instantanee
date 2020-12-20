@@ -8,7 +8,6 @@ import User from '../models/User';
 import Groupe from '../models/Groupe';
 
 export class GroupeController {
-
     /**
      *
      *
