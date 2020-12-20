@@ -20,4 +20,47 @@ export default class Video extends Asset {
     get attributInsert(): Array<string> {
         return ['asset_idasset'];
     }
+    static update(update: Object, where: Object) {
+        return new Promise((resolve, reject) => {
+            MySQL.update('video', update, where).then((modifiedRows: number ) => {                    
+                    console.log("Update Video(s) : "+modifiedRows);
+                    resolve(modifiedRows);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    reject(false)
+                });
+        })
+    }
+    static delete(where: Object) {
+        return new Promise((resolve, reject) => {
+            MySQL.delete('video', where).then((deletedRows: number ) => {                    
+                    console.log("Deleted video(s) : "+deletedRows);
+                    resolve(deletedRows);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    reject(false)
+                });
+        })
+    }
+    static select(where: Object) {
+        return new Promise((resolve, reject) => {
+            MySQL.select('image', where).then((arrayUser: Array < Video > ) => {
+                    let newVideo : Video;
+                    let data: Array < Video > = [];
+                    for (const video of arrayUser) {
+                        if(video.id_Asset === undefined ) video.id_Asset;
+                        newVideo= new Video(video.id_Asset);
+                        data.push(newVideo);
+                    }
+                    console.log(data);
+                    resolve(data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    reject(false)
+                });
+        })
+    }
 }

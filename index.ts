@@ -60,6 +60,15 @@ try {
 
       //  })
     });
+    const message1= new Message(null,1,1,"deezfefz")
+    message1.save().then((id: number) => {
+        Message.select({id_message: id });
+        //Groupe.delete({ id_groupe: 6}).then(() => {
+           Message.update({contenu_message:'bonjour1' }, { id_message: id });
+           
+
+      //  })
+    });
     
 
     const message = new Message(null, 1, 1, "dzefzjb");
