@@ -2,7 +2,8 @@ import MySQL from '../db/MySQL';
 import { IConversation } from '../interface/IConversation';
 export default class Conversation implements IConversation{
     private id_conversation:number|null;
-    private user_id_emetteur: number ;
+    private user_id_emetteur: number;
+    
     private user_id_recepteur: number ;
     
     constructor(id_conversation:number|null,user_emetteur: number, user_recepteur: number){
@@ -13,6 +14,15 @@ export default class Conversation implements IConversation{
     get attributInsert(): Array < string > {
         return [`id_conversation`,`user_id_emetteur`, `user_id_recepteur`];
     };
+    get id_conv() : number {
+        return <number> this.id_conversation;
+    }
+    get _user_id_emetteur(): number {
+        return this.user_id_emetteur;
+    }
+    get _user_id_recepteur(): number {
+        return this.user_id_recepteur;
+    }
 
     save(): Promise<number> {
         return new Promise((resolve, reject) => {
@@ -46,7 +56,7 @@ export default class Conversation implements IConversation{
                 });
         })
     }
-    static select(where: Object) {
+    static select(where: Object) : Promise<Array<Conversation>>{
         return new Promise((resolve, reject) => {
             MySQL.select('conversation', where).then((arrayUser: Array < Conversation > ) => {
                     let newConversation : Conversation;
@@ -56,7 +66,7 @@ export default class Conversation implements IConversation{
                         newConversation= new Conversation(conversation.id_conversation, conversation.user_id_emetteur, conversation.user_id_recepteur);
                         data.push(newConversation);
                     }
-                    console.log(data);
+                    //console.log(data);
                     resolve(data);
                 })
                 .catch((err) => {
