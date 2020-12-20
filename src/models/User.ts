@@ -27,6 +27,9 @@ export default class User implements IUser {
         this.login = login;
         this.username = username;
     }
+    get id() : number{
+        return <number> this.id_user;
+    }
     get attributInsert(): Array<string> {
         return [`id_user`, `nom`, `prenom`, `email`, `password`, `login`, `username`, `status`];
     }
