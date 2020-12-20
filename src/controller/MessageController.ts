@@ -1,31 +1,18 @@
-import { decode, sign, TokenExpiredError } from 'jsonwebtoken';
 import { Request, Response } from 'express';
-
-
-import PasswordException from '../exception/PasswordException';
+import { AuthController } from './AuthController';
 import User from '../models/User';
 import Conversation from '../models/Conversation';
 import Message from '../models/Message';
-import Groupe from '../models/Groupe';
 
-const expirationToken = '5m';
 
-export class UserController {
+export class MessageController {
 
     static envoyer_message = async (req: Request, res: Response) => {
 
+        let checkToken = await AuthController.checkToken(req,res);
+        if (checkToken?.tokenExpired === true) return res.status(401).json({ error: true, message: checkToken.error }).end();
+        
         let data: any = req.body;
-        const authHeader = req.headers['authorization'];
-        if (authHeader !== undefined) {
-            if (authHeader.startsWith("Bearer ")) {
-                const tokenAuth = authHeader.substring(7, authHeader.length);
-                console.log(tokenAuth);
-                const theToken: any = await sign({ id: data.user_id_emetteur }, <string>process.env.JWT_KEY, { expiresIn: expirationToken })
-                console.log(theToken);
-                if (tokenAuth.toString() == theToken.toString()) console.log('le token est bon');
-            }
-        }
-
 
         try {
             Conversation.select({ user_id_emetteur: data.user_id_emetteur, user_id_recepteur: data.user_id_recepteur }).then(async (dataConv: Array<Conversation>) => {
@@ -69,20 +56,5 @@ export class UserController {
             return res.status(401).json({ error: true, message: err.message }).end();
         }
     }
-    static creer_groupe = async(req: Request, res: Response) => {
-        let data: any = req.body;
-
-        try {
-        
-            const groupe1 = new Groupe(null,data.nom, data.admin, data.user_iduser)
-            return res.status(201).json("groupe creer");
-
-        } catch (err) {
-            return res.status(401).json({ error: true, message: err.message }).end();
-        }
-    }
-
-    refreshToken = async(req: Request, res: Response) => {}
-    checkToken = async(req: Request, res: Response) => {}
-    logout = async(req: Request, res: Response) => {}
+    
 }

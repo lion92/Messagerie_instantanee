@@ -18,7 +18,6 @@ export const authMidd = (req: Request, res: Response, next: () => void) => {
 }
 export const registerMidd = (req: Request, res: Response, next: () => void) => {
 
-    console.log('middleware run');
     let data: any = req.body;
 
     const champsRequire = [`nom`, `prenom`, `email`, `password`, `login`, `username`]

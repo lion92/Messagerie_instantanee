@@ -1,12 +1,6 @@
-import EmailException from '../exception/EmailException';
-import PasswordException from '../exception/PasswordException';
-import DateException from '../exception/DateException';
-import { verify } from 'jsonwebtoken';
 import {Request, Response} from 'express';
 
-const split = (token: string) => { return token.split('Bearer ').join('') }
-
-export const messageMidd = (req: Request, res: Response, next: () => void) => {
+export const envoyer_messageMidd = (req: Request, res: Response, next: () => void) => {
 
     let data: any = req.body;
     const champsRequire = [`user_id_emetteur`, `user_id_recepteur`, `contenu_message`];
