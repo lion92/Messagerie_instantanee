@@ -12,6 +12,7 @@ import Groupe from "./src/models/Groupe";
 import Message from "./src/models/Message";
 import Conversation from "./src/models/Conversation";
 import Membre from "./src/models/Membre";
+import PasswordException from "./src/exception/PasswordException";
 
 
 config(); //process.env
@@ -20,16 +21,32 @@ config(); //process.env
 try {
 
     //nico---------------------------------------
-
-    const user1 = new User(null, "kohler", "nicolas", "nicolas.krohler@imie-paris.fr", "password", "nkohler", "username");
-    user1.save().then((id: number) => {
+    
+  
+   
+const routeRegister = async() => {
+    const pass = await PasswordException.hashPassword('password');
+    const user1 = new User(null, "kohler", "nicolas", "nicolas.krohler@imie-paris.fr", pass, "nkohler", "username");
+    await user1.save().then((id: number) => {
+        
         User.select({ id_user: id });
         User.delete({ id_user: id - 1 }).then(() => {
             User.update({ nom: 'kohler2', prenom: 'nicolas6' }, { id_user: id });
             User.selectJoin('user',{id_user: 1});
 
+
         })
     });
+   // const clientZoubida = new Client(zoubida, 'totoo@too.to', pass);
+    //console.log('My name is:', clientZoubida.constructor.name);
+    //await clientZoubida.save();
+}
+
+routeRegister()
+
+
+    
+
 
 
 
