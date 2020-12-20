@@ -1,4 +1,4 @@
-import { decode, sign, TokenExpiredError } from 'jsonwebtoken';
+import { decode, sign, verify } from 'jsonwebtoken';
 import { Request, Response } from 'express';
 
 
@@ -61,11 +61,23 @@ export class AuthController {
             return res.status(401).json({ error: true, message: err.message }).end();
         }
     }
-    
-
 
     refreshToken = async (req: Request, res: Response) => { }
-    checkToken = async (req: Request, res: Response) => { }
+    
+    static checkToken = async (req: Request, res: Response) => { 
+        const authHeader = req.headers['authorization'];
+        if (authHeader !== undefined) {
+            if (authHeader.startsWith("Bearer ")) {
+                const tokenAuth = authHeader.substring(7, authHeader.length);
+                try {
+                    var decoded = verify(tokenAuth, <string>process.env.JWT_KEY);
+                    return {tokenExpired : false};
+                  } catch(err) {
+                    return {tokenExpired : true, error: err};
+                  }
+            }
+        }
+    }
     logout = async (req: Request, res: Response) => { }
 
 }
