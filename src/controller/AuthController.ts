@@ -27,7 +27,8 @@ export class AuthController {
 
             const token = {
                 token: theToken,
-                expired: await ( < any > decode(theToken)).exp
+                expired: await ( < any > decode(theToken)).exp,
+                connected: '<h1>You are logged</h1>'
             }
             return res.status(201).json(token);
         } catch (err) {
@@ -52,7 +53,7 @@ export class AuthController {
             const client = new User(null, data.nom, data.prenom, data.email, pass, data.login, data.username);
             await client.save();
 
-            const theToken: any = await sign({ id: client.id_user, name: client.nom  }, < string > process.env.JWT_KEY, { expiresIn: '1m' })
+            const theToken: any = await sign({ id: client.id_user, name: client.nom  }, < string > process.env.JWT_KEY, { expiresIn: '5m' })
 
             const token = {
                 token: theToken,

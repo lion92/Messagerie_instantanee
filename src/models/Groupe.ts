@@ -25,6 +25,9 @@ export default class Groupe implements IGroupe {
             })
         })
     }
+    get user_id(): number{
+        return <number> this.user_iduser;
+    }
     get attributInsert(): Array < string > {
         return [`id_groupe`,`nom_groupe`, `id_administrateur`, `date_creation`,`user_iduser`];
     };
