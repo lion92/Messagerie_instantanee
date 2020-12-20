@@ -12,6 +12,17 @@ const listAttributSelect_1 = __importDefault(require("../utils/listAttributSelec
  * @class MySQL
  */
 class MySQL {
+    static param_db() {
+        let bdd = {
+            host: process.env.DB_HOST,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASS,
+            database: process.env.DB_DATABASE,
+            //socketPath: process.env.SOCKETPATH, // Socket to Mac or Linux
+            port: parseInt((process.env.PORTMYSQL === undefined) ? '3306' : process.env.PORTMYSQL) // 3306 port default to mysql
+        };
+        return bdd;
+    }
     /**
      *
      * Insertion of any defined entity
@@ -23,14 +34,7 @@ class MySQL {
      */
     static insert(table, instance) {
         return new Promise((resolve, reject) => {
-            const bdd = mysql_1.createConnection({
-                host: process.env.DB_HOST,
-                user: process.env.DB_USER,
-                password: process.env.DB_PASS,
-                database: process.env.DB_DATABASE,
-                //socketPath: process.env.SOCKETPATH, // Socket to Mac or Linux
-                port: parseInt((process.env.PORTMYSQL === undefined) ? '3306' : process.env.PORTMYSQL) // 3306 port default to mysql
-            });
+            const bdd = mysql_1.createConnection(this.param_db());
             bdd.connect(err => {
                 if (err)
                     console.log('Connection database error');
@@ -69,14 +73,7 @@ class MySQL {
      */
     static select(table, where) {
         return new Promise((resolve, reject) => {
-            const bdd = mysql_1.createConnection({
-                host: process.env.DB_HOST,
-                user: process.env.DB_USER,
-                password: process.env.DB_PASS,
-                database: process.env.DB_DATABASE,
-                //socketPath: process.env.SOCKETPATH, // Socket to Mac or Linux
-                port: parseInt((process.env.PORTMYSQL === undefined) ? '3306' : process.env.PORTMYSQL) // 3306 port default to mysql
-            });
+            const bdd = mysql_1.createConnection(this.param_db());
             bdd.connect(err => {
                 if (err)
                     console.log('Connection database error');
@@ -84,24 +81,84 @@ class MySQL {
             let data = []; // Stock value
             let columns = "";
             let conditionWhere = "";
-            let parameters = "";
-            const key = listAttributSelect_1.default[table].attribut; // select is method to the Class => Array<string>
-            for (const champs of key) {
+            const keys = listAttributSelect_1.default[table].attribut; // select is method to the Class => Array<string>
+            for (const champs of keys) { //champs à afficher pendant le select
                 columns += "`" + champs + "`,";
             }
-            for (const key in where) {
+            for (const [key, value] of Object.entries(where)) { // Convert the properties of our objects to an array
                 conditionWhere += "`" + key + "` LIKE ? and ";
-                data.push(where[key]);
+                data.push(value);
             }
             conditionWhere = conditionWhere.slice(0, -5); // delete the last carac.
             columns = columns.slice(0, -1); // delete the last carac.
-            const query = bdd.query(`SELECT ${columns} FROM ${table} WHERE ${conditionWhere} ;`, [data], (error, results, fields) => {
+            const query = bdd.query(`SELECT ${columns} FROM ${table} WHERE ${conditionWhere} ;`, data, (error, results, fields) => {
+                if (error) {
+                    reject(error); // Reponse promise false => catch
+                    console.log(error);
+                }
+                else {
+                    resolve(results); // Reponse promise true => then or await
+                }
+                bdd.end(); // Close database
+            });
+        });
+    }
+    static delete(table, where) {
+        return new Promise((resolve, reject) => {
+            const bdd = mysql_1.createConnection(this.param_db());
+            bdd.connect(err => {
+                if (err)
+                    console.log('Connection database error');
+            });
+            let data = []; // Stock value
+            let conditionWhere = "";
+            for (const [key, value] of Object.entries(where)) { // Convert the properties of our objects to an array
+                conditionWhere += "`" + key + "` = ? and ";
+                data.push(value);
+            }
+            if (conditionWhere === "")
+                reject("Aucun parametre rentrer dans la fonction delete de Mysql.ts");
+            conditionWhere = conditionWhere.slice(0, -5); // delete the last carac.
+            const query = bdd.query(`DELETE FROM ${table} WHERE ${conditionWhere} ;`, data, (error, results, fields) => {
                 if (error) {
                     reject(error); // Reponse promise false => catch
                     console.log(error);
                 }
                 else
-                    resolve(results); // Reponse promise true => then or await
+                    resolve(results.affectedRows); // Reponse promise true => then or await
+                bdd.end(); // Close database
+            });
+        });
+    }
+    static update(table, update, where) {
+        return new Promise((resolve, reject) => {
+            const bdd = mysql_1.createConnection(this.param_db());
+            bdd.connect(err => {
+                if (err)
+                    console.log('Connection database error');
+            });
+            let data = []; // Stock value
+            let conditionWhere = "";
+            let elementUpdate = "";
+            for (const [key, value] of Object.entries(update)) { // Convert the properties of our objects to an array
+                elementUpdate += "`" + key + "` = ?,";
+                data.push(value);
+            }
+            elementUpdate = elementUpdate.slice(0, -1); // delete the last carac.
+            //Ajout de la condition where
+            for (const [key, value] of Object.entries(where)) { // Convert the properties of our objects to an array
+                conditionWhere += "`" + key + "` = ? and ";
+                data.push(value);
+            }
+            conditionWhere = conditionWhere.slice(0, -5); // delete the '? AND'
+            const query = bdd.query(`UPDATE ${table} SET ${elementUpdate} WHERE ${conditionWhere} ;`, data, (error, results, fields) => {
+                if (error) {
+                    reject(error); // Reponse promise false => catch
+                    console.log(error);
+                }
+                else {
+                    resolve(results.affectedRows); // Reponse promise true => then or await
+                }
                 bdd.end(); // Close database
             });
         });
@@ -118,14 +175,7 @@ class MySQL {
      */
     static selectJoin(table, join, where) {
         return new Promise((resolve, reject) => {
-            const bdd = mysql_1.createConnection({
-                host: process.env.DB_HOST,
-                user: process.env.DB_USER,
-                password: process.env.DB_PASS,
-                database: process.env.DB_DATABASE,
-                socketPath: process.env.SOCKETPATH,
-                port: parseInt((process.env.PORTMYSQL === undefined) ? '3306' : process.env.PORTMYSQL) // 3306 port default to mysql
-            });
+            const bdd = mysql_1.createConnection(this.param_db());
             bdd.connect(err => {
                 if (err)
                     console.log('Connection database error');
@@ -134,31 +184,36 @@ class MySQL {
             let columns = "";
             let conditionJoin = "";
             let conditionWhere = "";
-            let parameters = "";
-            const key = listAttributSelect_1.default[table].attribut; // select is method to the Class => Array<string>
-            for (const champs of key) {
+            const keys = listAttributSelect_1.default[table].attribut; // select is method to the Class => Array<string>
+            let i = 0;
+            for (const champs of keys) {
                 columns += "`" + champs + "`,";
             }
             for (let i = 0; i < join.length; i++) {
+                console.log(i);
                 let nameTable = join[i].table;
-                conditionJoin += `${join[i].type} JOIN ${join[i].table} ON ${join[i].where.table}.${join[i].where.foreignKey} = ${join[i].table}.${listAttributSelect_1.default[nameTable].primaryKey} `;
+                console.log(` ${table}.${listAttributSelect_1.default[table].primaryKey} `);
+                conditionJoin += `${join[i].type} JOIN ${join[i].table} ON ${join[i].where.table}.${join[i].where.foreignKey} = ${table}.${listAttributSelect_1.default[table].primaryKey} `;
                 for (const champs of listAttributSelect_1.default[nameTable].attribut) {
                     columns += "`" + nameTable + "`.`" + champs + "`,";
                 }
             }
-            for (const key in where) {
+            for (const [key, value] of Object.entries(where)) { // Convert the properties of our objects to an array
                 conditionWhere += "`" + key + "` LIKE ? and ";
-                data.push(where[key]);
+                data.push(value);
             }
             conditionWhere = conditionWhere.slice(0, -5); // delete the last carac.
             columns = columns.slice(0, -1); // delete the last carac.
-            const query = bdd.query(`SELECT ${columns} FROM ${table} ${conditionJoin} WHERE ${conditionWhere} ;`, [data], (error, results, fields) => {
+            console.log(`SELECT ${columns} FROM ${table} ${conditionJoin} WHERE ${conditionWhere} ; ` + data);
+            const query = bdd.query(`SELECT ${columns} FROM ${table} ${conditionJoin} WHERE ${conditionWhere} ;`, data, (error, results, fields) => {
                 if (error) {
                     reject(error); // Reponse promise false => catch
                     console.log(error);
                 }
-                else
+                else {
+                    console.log(results);
                     resolve(results); // Reponse promise true => then or await
+                }
                 bdd.end(); // Close database
             });
         });

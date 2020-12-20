@@ -55,7 +55,7 @@ const registerMidd = (req, res, next) => {
 exports.registerMidd = registerMidd;
 const loginMidd = (req, res, next) => {
     let data = req.body;
-    const champsRequire = [`login`, `password`];
+    const champsRequire = [`email`, `password`];
     try {
         let error = true;
         let textError = '';

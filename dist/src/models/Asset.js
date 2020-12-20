@@ -28,9 +28,49 @@ class Asset {
     get id() {
         return this.id_asset;
     }
-    toTimestamp(strDate) {
-        var datum = Date.parse(strDate);
-        return datum / 1000;
+    static update(update, where) {
+        return new Promise((resolve, reject) => {
+            MySQL_1.default.update('asset', update, where).then((modifiedRows) => {
+                console.log("Update Asset(s) : " + modifiedRows);
+                resolve(modifiedRows);
+            })
+                .catch((err) => {
+                console.log(err);
+                reject(false);
+            });
+        });
+    }
+    static delete(where) {
+        return new Promise((resolve, reject) => {
+            MySQL_1.default.delete('asset', where).then((deletedRows) => {
+                console.log("Deleted Asset(s) : " + deletedRows);
+                resolve(deletedRows);
+            })
+                .catch((err) => {
+                console.log(err);
+                reject(false);
+            });
+        });
+    }
+    static select(where) {
+        return new Promise((resolve, reject) => {
+            MySQL_1.default.select('asset', where).then((arrayUser) => {
+                let newAsset;
+                let data = [];
+                for (const asset of arrayUser) {
+                    if (asset.id_asset === undefined)
+                        asset.id_asset = null;
+                    newAsset = new Asset(asset.id_asset, asset.groupe_idgroupe, asset.nom_document);
+                    data.push(newAsset);
+                }
+                console.log(data);
+                resolve(data);
+            })
+                .catch((err) => {
+                console.log(err);
+                reject(false);
+            });
+        });
     }
 }
 exports.default = Asset;
