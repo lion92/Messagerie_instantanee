@@ -3,16 +3,16 @@ import { IVideo } from '../interface/IVideo';
 import MySQL from '../db/MySQL';
 export default class Video extends Asset {
 
-    private id_Asset:number;
+    private asset_idasset:number;
 
     constructor(id_video:number){
-        super(id_video,1);
-        this.id_Asset=id_video;
+        super(id_video);
+        this.asset_idasset=id_video;
     }
     save(): Promise < number > {
         return new Promise((resolve, reject) => {
             MySQL.insert('video', this).then((id: number) => {
-                this.id_asset = id;
+                this.asset_idasset = id;
                 resolve(id)
             })
         })
@@ -50,8 +50,8 @@ export default class Video extends Asset {
                     let newVideo : Video;
                     let data: Array < Video > = [];
                     for (const video of arrayUser) {
-                        if(video.id_Asset === undefined ) video.id_Asset;
-                        newVideo= new Video(video.id_Asset);
+                        if(video.asset_idasset === undefined ) video.asset_idasset;
+                        newVideo= new Video(video.asset_idasset);
                         data.push(newVideo);
                     }
                     console.log(data);

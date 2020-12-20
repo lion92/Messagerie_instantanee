@@ -6,6 +6,8 @@ import { AuthentificationRoute } from "./src/routes/AuthentificationRoute";
 import { MessageRoute } from "./src/routes/MessageRoute";
 import { GroupeRoute } from "./src/routes/GroupeRoute";
 import { AssetRoute } from "./src/routes/AssetRoute";
+import { ImageRoute } from "./src/routes/ImageRoute";
+import { VideoRoute } from "./src/routes/videoRoute";
 
 config(); //process.env
 
@@ -21,6 +23,8 @@ try {
     app.use('/message', MessageRoute);
     app.use('/groupe', GroupeRoute);
     app.use('/asset', AssetRoute);
+    app.use('/image', ImageRoute);
+    app.use('/video', VideoRoute);
 
     app.listen(process.env.PORT, () => {
         console.log(`Server run to http://localhost:${process.env.PORT}`);

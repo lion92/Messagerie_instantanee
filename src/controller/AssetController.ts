@@ -21,7 +21,8 @@ export class AssetController {
 
         try {
         
-            const groupe1 = new Asset(null, data.groupe_idgroupe, data.nom_document, data.descriptif, data.url)
+            const asset = new Asset(null, data.groupe_idgroupe, data.nom_document, data.descriptif, data.url)
+            asset.save();
             return res.status(201).json("asset creer");
 
         } catch (err) {

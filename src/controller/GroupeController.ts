@@ -19,7 +19,8 @@ export class GroupeController {
 
         try {
         
-            const groupe1 = new Groupe(null,data.nom, data.admin, data.user_iduser)
+            const groupe1 = new Groupe(null,data.nom_groupe, data.id_administrateur, data.user_iduser);
+            groupe1.save();
             return res.status(201).json("groupe creer");
 
         } catch (err) {

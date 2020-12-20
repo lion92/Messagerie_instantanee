@@ -1,11 +1,8 @@
-import { AuthController } from '../controller/AuthController';
 import { Router } from 'express';
-import {Request, Response} from 'express';
-import { loginMidd, registerMidd, authMidd} from '../middlewares/auth.middleware';
-import { asset} from '../middlewares/asset.middleware';
-import { AssetController } from '../controller/AssetController';
+import { ImageController } from '../controller/ImageController';
+import { image } from '../middlewares/image.middleware';
 
 const route: Router = Router();
 
-route.post('/creer', asset,  AssetController.creer_asset)
+route.post('/creer', image,  ImageController.creer_image)
 export { route as ImageRoute }
