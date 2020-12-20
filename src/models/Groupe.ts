@@ -60,7 +60,7 @@ export default class Groupe implements IGroupe {
                     let data: Array < Groupe > = [];
                     for (const groupe of arrayUser) {
                         if(groupe.id_groupe === undefined ) groupe.id_groupe = null;
-                        newGroupe= new Groupe(groupe.id_groupe, groupe.nom_groupe, groupe.id_dministrateur, groupe.user_iduser);
+                        newGroupe= new Groupe(groupe.id_groupe, groupe.nom_groupe, groupe.id_administrateur, groupe.user_iduser);
                         data.push(newGroupe);
                     }
                     console.log(data);
