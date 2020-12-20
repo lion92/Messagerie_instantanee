@@ -5,6 +5,7 @@ import Asset from '../models/Asset';
 import Groupe from '../models/Groupe';
 import Message from '../models/Message';
 import Conversation from '../models/Conversation';
+import Membre from '../models/Membre';
 
 export interface jointureInterface {
     type: 'LEFT' | 'RIGHT' | 'FULL' | 'INNER';
@@ -45,7 +46,7 @@ export default abstract class MySQL {
      * @returns {Promise < number >}
      * @memberof MySQL
      */
-    static insert(table: string, instance: User | Asset | Groupe | Message | Conversation): Promise<number> {
+    static insert(table: string, instance: User | Membre |Asset | Groupe | Message | Conversation): Promise<number> {
         return new Promise((resolve, reject) => { // return Promise because the processing time of the database | The only way to get an answer is the "resolve()" or "reject()"
 
             const bdd: Connection = createConnection(this.param_db());
