@@ -38,13 +38,22 @@ try {
         video.save();
     })
     const asset1 = new Asset(null, 1,"essai")
-    Asset.delete({ id_asset: 240 })
+   // Asset.delete({ id_asset: 240 })
     asset1.save().then((id: number) => {
         Asset.select({id_asset: id });
         //Asset.delete({ id_asset: id - 1 }).then(() => {
            Asset.update({nom_document:'ggggg', descriptif:'frrfr',url:'frfr'}, { id_asset: id });
            
         //})
+    });
+    const groupe1= new Groupe(null,"dzz",1,1)
+    groupe1.save().then((id: number) => {
+        Groupe.select({id_groupe: id });
+        //Groupe.delete({ id_groupe: 6}).then(() => {
+           Groupe.update({nom_groupe:'frref', id_dministrateur:2,user_iduser:2 }, { id_groupe: id });
+           
+
+      //  })
     });
 
     const message = new Message(null, 1, 1, "dzefzjb");
