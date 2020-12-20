@@ -10,7 +10,6 @@ route.get('/', authMidd, (req: Request, res: Response) => {
 })
 route.post('/login', loginMidd, AuthController.login)
 route.post('/register', registerMidd, AuthController.register)
-//route.post('/conversation', converMidd, AuthController.conversation)
 route.post('/message', messageMidd, AuthController.message)
 
 export { route as AuthentificationRoute }
