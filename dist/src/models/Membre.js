@@ -3,28 +3,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Asset_1 = __importDefault(require("./Asset"));
 const MySQL_1 = __importDefault(require("../db/MySQL"));
-class Image extends Asset_1.default {
-    constructor(id_image) {
-        super(id_image);
-        this.asset_idasset = id_image;
+class Membre {
+    constructor(user_iduser, groupe_idgroupe) {
+        this.user_iduser = user_iduser;
+        this.groupe_idgroupe = groupe_idgroupe;
     }
     get attributInsert() {
-        return ['asset_idasset'];
+        return ['user_iduser', 'groupe_idgroupe'];
     }
     save() {
         return new Promise((resolve, reject) => {
-            MySQL_1.default.insert('image', this).then((id) => {
-                this.asset_idasset = id;
+            MySQL_1.default.insert('membre', this).then((id) => {
+                this.user_iduser = this.user_iduser;
                 resolve(id);
             });
         });
     }
     static update(update, where) {
         return new Promise((resolve, reject) => {
-            MySQL_1.default.update('image', update, where).then((modifiedRows) => {
-                console.log("Update Image(s) : " + modifiedRows);
+            MySQL_1.default.update('membre', update, where).then((modifiedRows) => {
+                console.log("Update Membre(s) : " + modifiedRows);
                 resolve(modifiedRows);
             })
                 .catch((err) => {
@@ -35,8 +34,8 @@ class Image extends Asset_1.default {
     }
     static delete(where) {
         return new Promise((resolve, reject) => {
-            MySQL_1.default.delete('image', where).then((deletedRows) => {
-                console.log("Deleted Image(s) : " + deletedRows);
+            MySQL_1.default.delete('membre', where).then((deletedRows) => {
+                console.log("Deleted Membre(s) : " + deletedRows);
                 resolve(deletedRows);
             })
                 .catch((err) => {
@@ -47,14 +46,14 @@ class Image extends Asset_1.default {
     }
     static select(where) {
         return new Promise((resolve, reject) => {
-            MySQL_1.default.select('image', where).then((arrayUser) => {
-                let newImage;
+            MySQL_1.default.select('membre', where).then((arrayUser) => {
+                let newMembre;
                 let data = [];
-                for (const image of arrayUser) {
-                    if (image.asset_idasset === undefined)
-                        image.asset_idasset;
-                    newImage = new Image(image.asset_idasset);
-                    data.push(newImage);
+                for (const membre of arrayUser) {
+                    if (membre.user_iduser === undefined)
+                        membre.user_iduser;
+                    newMembre = new Membre(membre.user_iduser, membre.groupe_idgroupe);
+                    data.push(newMembre);
                 }
                 console.log(data);
                 resolve(data);
@@ -66,4 +65,4 @@ class Image extends Asset_1.default {
         });
     }
 }
-exports.default = Image;
+exports.default = Membre;
