@@ -6,14 +6,14 @@ export default class Groupe implements IGroupe {
 
     private id_groupe: number | null;
     private nom_groupe: string;
-    private id_dministrateur: number;
+    private id_administrateur: number;
     private date_creation: string;
     private user_iduser:number;
 
     constructor(id_groupe: number | null, nom: string, admin: number,user_iduser:number) {
         this.id_groupe = id_groupe;
         this.nom_groupe = nom;
-        this.id_dministrateur = admin;
+        this.id_administrateur = admin;
         this.date_creation = new Date().toISOString().replace('Z', '').replace('T', ' ');;
         this.user_iduser=user_iduser;
     }
