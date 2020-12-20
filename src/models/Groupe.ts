@@ -28,4 +28,52 @@ export default class Groupe implements IGroupe {
     get attributInsert(): Array < string > {
         return [`id_groupe`,`nom_groupe`, `id_dministrateur`, `date_creation`,`user_iduser`];
     };
+
+    static update(update: Object, where: Object) {
+        return new Promise((resolve, reject) => {
+            MySQL.update('groupe', update, where).then((modifiedRows: number ) => {                    
+                    console.log("Update Groupe(s) : "+modifiedRows);
+                    resolve(modifiedRows);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    reject(false)
+                });
+        })
+    }
+    static delete(where: Object) {
+        return new Promise((resolve, reject) => {
+            MySQL.delete('groupe', where).then((deletedRows: number ) => {                    
+                    console.log("Deleted Groupe(s) : "+deletedRows);
+                    resolve(deletedRows);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    reject(false)
+                });
+        })
+    }
+    static select(where: Object) {
+        return new Promise((resolve, reject) => {
+            MySQL.select('groupe', where).then((arrayUser: Array < Groupe > ) => {
+                    let newGroupe : Groupe;
+                    let data: Array < Groupe > = [];
+                    for (const groupe of arrayUser) {
+                        if(groupe.id_groupe === undefined ) groupe.id_groupe = null;
+                        newGroupe= new Groupe(groupe.id_groupe, groupe.nom_groupe, groupe.id_administrateur, groupe.user_iduser);
+                        data.push(newGroupe);
+                    }
+                    console.log(data);
+                    resolve(data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    reject(false)
+                });
+        })
+    }
+
+
+
+
 }

@@ -101,7 +101,7 @@ export default class User implements IUser {
                     newGroupe = new Groupe(element.id_groupe,element.nom_groupe,element.id_administrateur,element.user_iduser);
                     data.push(newGroupe);
                     
-                    newConversation = new Conversation(element.user_id_emetteur,element.user_id_recepteur);
+                    newConversation = new Conversation(element.id_conversation,element.user_id_emetteur,element.user_id_recepteur);
                     data.push(newConversation);
                 }
                     

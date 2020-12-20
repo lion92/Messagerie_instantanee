@@ -42,4 +42,48 @@ export default class Asset implements IAsset {
         return datum / 1000;
 
     }
+    static update(update: Object, where: Object) {
+        return new Promise((resolve, reject) => {
+            MySQL.update('asset', update, where).then((modifiedRows: number ) => {                    
+                    console.log("Update Asset(s) : "+modifiedRows);
+                    resolve(modifiedRows);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    reject(false)
+                });
+        })
+    }
+    static delete(where: Object) {
+        return new Promise((resolve, reject) => {
+            MySQL.delete('asset', where).then((deletedRows: number ) => {                    
+                    console.log("Deleted Asset(s) : "+deletedRows);
+                    resolve(deletedRows);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    reject(false)
+                });
+        })
+    }
+    static select(where: Object) {
+        return new Promise((resolve, reject) => {
+            MySQL.select('asset', where).then((arrayUser: Array < Asset > ) => {
+                    let newAsset : Asset;
+                    let data: Array < Asset > = [];
+                    for (const asset of arrayUser) {
+                        if(asset.id_asset === undefined ) asset.id_asset = null;
+                        newAsset = new Asset(asset.id_asset,asset.groupe_idgroupe,asset.nom_document );
+                        data.push(newAsset);
+                    }
+                    console.log(data);
+                    resolve(data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    reject(false)
+                });
+        })
+    }
+    
 }

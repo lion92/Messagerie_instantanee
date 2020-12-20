@@ -1,4 +1,4 @@
-export type listeTables = "user" | "image" | "groupe" | "video" | "asset" | "conversation" | "membre" | "message";
+export type listeTables = |"user" | "image" | "groupe" | "video" | "asset" | "conversation" | "membre" | "message";
 
 interface attributSelectInterface {
     primaryKey: string;
