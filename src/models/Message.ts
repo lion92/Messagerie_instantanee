@@ -41,7 +41,7 @@ static update(update: Object, where: Object) {
     })
 }
 static delete(where: Object) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject)  => {
         MySQL.delete('message', where).then((deletedRows: number ) => {                    
                 console.log("Deleted Message(s) : "+deletedRows);
                 resolve(deletedRows);

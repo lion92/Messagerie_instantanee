@@ -1,17 +1,11 @@
-import { decode, sign, TokenExpiredError, verify } from 'jsonwebtoken';
 import { Request, Response } from 'express';
-
-
-import PasswordException from '../exception/PasswordException';
+import { AuthController } from './AuthController';
 import User from '../models/User';
 import Conversation from '../models/Conversation';
 import Message from '../models/Message';
-import Groupe from '../models/Groupe';
-import { AuthController } from './AuthController';
 
-const expirationToken = '5m';
 
-export class UserController {
+export class MessageController {
 
     static envoyer_message = async (req: Request, res: Response) => {
 
