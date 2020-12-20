@@ -7,8 +7,8 @@ import Conversation from './Conversation';
 import Message from './Message';
 export default class User implements IUser {
 
-    private id_user?: number | null;
-    private nom: string;
+    public id_user?: number | null;
+    public nom: string;
     private prenom: string;
     private email: string;
     private password: string;
@@ -138,4 +138,20 @@ export default class User implements IUser {
                 });
         })
     }
+
+    static isExiste(email: string) {
+        return new Promise((resolve, reject) => {
+            MySQL.select('user', { email: email }).then((arrayClient: Array < any > ) => {
+                    resolve((arrayClient.length > 0))
+                })
+                .catch((err: any) => {
+                    console.log(err);
+                    reject(false)
+                });
+        })
+    }
+
+    
+
+
 }
