@@ -36,8 +36,11 @@ try {
     asset.save().then((id: number) => {
         //const groupe=new Groupe(null,"bonjour",1,1);
         //onst b=groupe.save();
-        const video = new Image(id);
-        video.save();
+        const image = new Image(id);
+        image.save();
+        Image.select({asset_idasset: id });
+        //Groupe.delete({ id_groupe: 6}).then(() => {
+           Image.update({ }, { asset_idasset: id });
     })
     const asset1 = new Asset(null, 1,"essai")
    // Asset.delete({ id_asset: 240 })
@@ -57,6 +60,7 @@ try {
 
       //  })
     });
+    
 
     const message = new Message(null, 1, 1, "dzefzjb");
     const test3 = message.save();
