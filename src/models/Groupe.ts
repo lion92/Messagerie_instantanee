@@ -26,7 +26,7 @@ export default class Groupe implements IGroupe {
         })
     }
     get attributInsert(): Array < string > {
-        return [`id_groupe`,`nom_groupe`, `id_dministrateur`, `date_creation`,`user_iduser`];
+        return [`id_groupe`,`nom_groupe`, `id_administrateur`, `date_creation`,`user_iduser`];
     };
 
     static update(update: Object, where: Object) {
